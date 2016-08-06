@@ -1,10 +1,5 @@
 {
-
-    // jshint options http://www.jshint.com/docs/options/
-    
-    "indent": 4,
-
-    // Enforcing Options
+    "indent": 2,
     "bitwise": true,
     "camelcase": true,
     "curly": true,
@@ -25,10 +20,6 @@
     "trailing": true,
     "maxparams": 4,
     "maxdepth": 5,
-    // "maxstatements": 5,
-    "maxlen": 240,
-           
-    // Relaxing Options
     "asi": false,
     "boss": false,
     "debug": false,
@@ -55,8 +46,6 @@
     "sub": false,
     "supernew": false,
     "validthis": false,
-
-    // Environments
     "browser": false,
     "couch": false,
     "devel": false,
@@ -71,11 +60,10 @@
     "worker": false,
     "wsh": false,
     "yui": false,
-
-    // Legacy
     "nomen": true,
     "onevar": true,
     "passfail": false,
-    "white": true
+    "white": true,
+    "predef": ["require"]
 
 }
