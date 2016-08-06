@@ -1,9 +1,46 @@
-<table>
+<style>
+  #GameBoard td {
+    width: 100px;
+    height: 100px;
+    opacity: 0.8;
+    transition: opacity 200ms;
+  }
+
+  #GameBoard td:hover {
+    opacity: 1;
+  }
+
+  #GameBoard td.player {
+    background-color: #53c14b;
+  }
+
+  #GameBoard td.player.darker {
+    background-color: #28a81c;
+  }
+
+  #GameBoard td.enemy {
+    background-color: #ed5c5c;
+  }
+
+  #GameBoard td.enemy.darker {
+    background-color: #bf4646;
+  }
+
+  #GameBoard td.neutral {
+    background-color: #DDD;
+  }
+
+  #GameBoard td.neutral.darker {
+    background-color: #999;
+  }
+
+</style>
+
+<table id="GameBoard">
   <% _.each(_.range(rows), function(row) { %>
     <tr>
       <% _.each(_.range(cols), function(col) { %>
-        <td data-cell="<%= row + '-' + col %>">
-          a
+        <td class="board_cell <%= col > cols/2 ? 'player' : col === ~~(cols/2) ? 'neutral' : 'enemy' %> <%= (col+row)%2 ? 'darker' : '' %>" data-cell="<%= row + '-' + col %>">
         </td>
       <% }) %>
     </tr>
