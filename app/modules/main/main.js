@@ -18,6 +18,7 @@ GAME.main = function() {
     var hero = new GAME.heroes[heroClass]();
     var position = $(cell).attr('data-cell').split('-');
     hero.init();
+    // hero.teleportTo(parseInt(position[0], 10), -5);
     hero.moveTo(parseInt(position[0], 10), parseInt(position[1], 10));
     GAME.units.greens.push(hero);
   });
@@ -34,6 +35,7 @@ GAME.main = function() {
     var position = $(cell).attr('data-cell').split('-');
     hero.init();
     hero.orientation = -1;
+    // hero.teleportTo(parseInt(position[0], 10), -5);
     hero.moveTo(parseInt(position[0], 10), parseInt(position[1], 10));
     GAME.units.reds.push(hero);
   });
