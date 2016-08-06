@@ -40,9 +40,14 @@ module.exports = function (grunt) {
                 },
                 files: [
                     '<%= config.src %>/*.html',
-                    '.tmp/styles/{,*/}*.css',
-                    '{.tmp,<%= config.src %>}/scripts/{,*/}*.js',
+                    // '.tmp/styles/{,*/}*.css',
+                    '<%= config.src %>/scripts/{,*/}*.js',
                     '<%= config.src %>/<%= config.images %>/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
+                ],
+                tasks: [
+                  // 'clean:server',
+                  // 'concurrent:dev',
+                  'requirejs:dev'
                 ]
             }
         },
@@ -61,14 +66,15 @@ module.exports = function (grunt) {
                         '<%= config.src %>'
                     ]
                 }
-            },
-            dist: {
-                options: {
-                    open: true,
-                    base: '<%= config.dist %>',
-                    livereload: false
-                }
             }
+            // ,
+            // dist: {
+            //     options: {
+            //         open: true,
+            //         base: '<%= config.dist %>',
+            //         livereload: false
+            //     }
+            // }
         },
 
         clean: {
@@ -251,7 +257,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('serve', function (target) {
-        
+
         if (target === 'build') {
             return grunt.task.run(['build', 'connect:dist:keepalive']);
         }

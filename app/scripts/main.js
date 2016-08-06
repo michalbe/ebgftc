@@ -1,9 +1,14 @@
 /*jshint browser: true*/
 
-(function (window, undefined) {
-
+require(
+  [
+    'jquery',
+    '_',
+    'board/board'
+  ],
+  function($, _, board) {
     'use strict';
 
-
-
-}(this));
+    $('body').html(board);
+  }
+);

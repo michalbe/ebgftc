@@ -1,6 +1,8 @@
 /*jshint browser: true*/
 
-require(function() {
+define(function() {
   'use strict';
-  return 'hello';
+
+  return 'hellivelo';
+
 });

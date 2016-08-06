@@ -63,7 +63,6 @@
     "nomen": true,
     "onevar": true,
     "passfail": false,
-    "white": true,
-    "predef": ["require"]
+    "predef": ["require", "define"]
 
 }
