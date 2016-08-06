@@ -43,7 +43,7 @@ define(function() {
       this.render = function() {
         var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
         var cellOffset = cell.offset();
-        this.element.css({
+        this.element.animate({
           top: cellOffset.top + ((cell.height() - this.height)/2),
           left: cellOffset.left + ((cell.width() - this.width)/2),
           transform: 'scale(' + this.orientation + ', 1)'
