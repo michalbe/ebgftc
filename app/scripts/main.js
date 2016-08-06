@@ -2,11 +2,15 @@
 
 require(
   [
-    './board/board'
+    './board/board',
+    './heroes/basic'
   ],
-  function(board) {
+  function(board, BasicHero) {
     'use strict';
 
-    $('body').html(board);
+    var hero = new BasicHero();
+    $('body').append(board);
+    hero.position.y = 8;
+    hero.render();
   }
 );
