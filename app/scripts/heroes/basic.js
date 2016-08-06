@@ -4,6 +4,8 @@ define(function() {
     'use strict';
 
     var BaseHero = function() {
+      var self = this;
+
       this.width = 78;
       this.height = 90;
       this.sprite = 'sprite.png';
@@ -18,6 +20,8 @@ define(function() {
       this.damage = 1;
       this.hp = 5;
       this.rechargeTime = 2;
+      this.isRecharging = false;
+
       this.attack = function() {
         console.log('attack!');
       };
@@ -41,9 +45,23 @@ define(function() {
         var cellOffset = cell.offset();
         this.element.css({
           top: cellOffset.top + ((cell.height() - this.height)/2),
-          left: cellOffset.left + ((cell.width() - this.width)/2)
+          left: cellOffset.left + ((cell.width() - this.width)/2),
+          transform: 'scale(' + this.orientation + ', 1)'
         });
       };
+
+      this.moveTo = function(x, y) {
+        this.position = {
+          x: x,
+          y: y
+        };
+
+        this.render();
+      };
+
+      this.element.on('click', function() {
+        self.moveTo(1, 8);
+      });
     };
 
     return BaseHero;
