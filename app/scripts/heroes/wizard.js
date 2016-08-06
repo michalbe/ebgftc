@@ -5,7 +5,7 @@ define([
 
     var Hero = function() {
       BasicHero.call(this);
-      this.spritePosition = { x: 0, y: 0 };
+      this.spritePosition = { x: 1, y: 0 };
 
       return this;
     };

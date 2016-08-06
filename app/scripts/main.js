@@ -11,10 +11,13 @@ require(
     // var heroes = [];
     $('body').append(board);
 
+    var heroClasses = Object.keys(heroes);
     // hero players
     var heroCount = $('td.player');
     _.each(heroCount, function(cell) {
-      var hero = new heroes.Warrior();
+      var heroClass = heroClasses[Math.floor(Math.random()*heroClasses.length)];
+      console.log(heroClass);
+      var hero = new heroes[heroClass]();
       var position = $(cell).attr('data-cell').split('-');
       hero.init();
       hero.moveTo(position[0], position[1]);
@@ -24,7 +27,8 @@ require(
     // enemy players
     heroCount = $('td.enemy');
     _.each(heroCount, function(cell) {
-      var hero = new heroes.Mage();
+      var heroClass = heroClasses[Math.floor(Math.random()*heroClasses.length)];
+      var hero = new heroes[heroClass]();
       var position = $(cell).attr('data-cell').split('-');
       hero.init();
       hero.orientation = -1;

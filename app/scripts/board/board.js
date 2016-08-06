@@ -6,7 +6,7 @@ define([
   function(template) {
   'use strict';
 
-  var rows = 2;
+  var rows = 5;
   var cols = 11;
   var _template = _.template(template);
 
