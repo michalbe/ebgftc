@@ -2,11 +2,9 @@
 
 require(
   [
-    'jquery',
-    '_',
-    'board/board'
+    './board/board'
   ],
-  function($, _, board) {
+  function(board) {
     'use strict';
 
     $('body').html(board);

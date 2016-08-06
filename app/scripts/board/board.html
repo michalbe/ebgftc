@@ -1,11 +1,11 @@
 <table>
-  <% _.range(rows, function(row) { %>
+  <% _.each(_.range(rows), function(row) { %>
     <tr>
-      <% _.range(cols, function(col) { %>
+      <% _.each(_.range(cols), function(col) { %>
         <td data-cell="<%= row + '-' + col %>">
           a
         </td>
-      <% } %>
+      <% }) %>
     </tr>
-  <% } %>
+  <% }) %>
 </table>

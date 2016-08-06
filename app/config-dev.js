@@ -6,9 +6,7 @@ requirejs.config({
     paths: {
 
         'requirelib': '../../app/bower_components/requirejs/require',
-        'jquery': '../../app/bower_components/jquery/dist/jquery',
-        '_': '../../app/bower_components/underscore/underscore',
-
+        'text': '../../app/bower_components/text/text'
     },
 
     shim: {
@@ -23,8 +21,7 @@ requirejs.config({
             name: 'resources',
             create: true,
             include: [
-                'requirelib',
-                'jquery'
+                'requirelib'
             ]
         }
     ]

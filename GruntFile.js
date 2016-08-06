@@ -42,6 +42,7 @@ module.exports = function (grunt) {
                     '<%= config.src %>/*.html',
                     // '.tmp/styles/{,*/}*.css',
                     '<%= config.src %>/scripts/{,*/}*.js',
+                    '<%= config.src %>/scripts/{,*/}*.html',
                     '<%= config.src %>/<%= config.images %>/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
                 ],
                 tasks: [
