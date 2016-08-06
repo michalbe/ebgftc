@@ -1,9 +1,11 @@
 define([
-  './warrior'
-], function(Warrior) {
+  './warrior',
+  './mage'
+], function(Warrior, Mage) {
     'use strict';
 
     return {
-      Warrior: Warrior
+      Warrior: Warrior,
+      Mage: Mage
     };
 });

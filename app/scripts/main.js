@@ -24,7 +24,7 @@ require(
     // enemy players
     heroCount = $('td.enemy');
     _.each(heroCount, function(cell) {
-      var hero = new heroes.Warrior();
+      var hero = new heroes.Mage();
       var position = $(cell).attr('data-cell').split('-');
       hero.init();
       hero.orientation = -1;
