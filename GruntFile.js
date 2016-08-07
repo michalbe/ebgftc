@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         config: {
             src: 'app',
             dist: 'dist',
-            images: 'bin'
+            images: 'app/img'
         },
 
         'bower-install': {
@@ -26,14 +26,6 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            less: {
-                files: ['<%= config.src %>/styles/*.less'],
-                tasks: ['less:dev'],
-                options: {
-                    spawn: false,
-                    interrupt: true
-                },
-            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -41,14 +33,15 @@ module.exports = function (grunt) {
                 files: [
                     '<%= config.src %>/*.html',
                     // '.tmp/styles/{,*/}*.css',
-                    '<%= config.src %>/scripts/{,*/}*.js',
-                    '<%= config.src %>/scripts/{,*/}*.html',
+                    '<%= config.src %>/modules/{,*/}*.js',
+                    '<%= config.src %>/modules/{,*/}*.html',
                     '<%= config.src %>/<%= config.images %>/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
                 ],
                 tasks: [
                   // 'clean:server',
                   // 'concurrent:dev',
-                  'requirejs:dev'
+                  // 'requirejs:dev'
+                  'concat'
                 ]
             }
         },
@@ -63,19 +56,11 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
-                        '.tmp',
-                        '<%= config.src %>'
+                        'dist'
+                        // '<%= config.src %>'
                     ]
                 }
             }
-            // ,
-            // dist: {
-            //     options: {
-            //         open: true,
-            //         base: '<%= config.dist %>',
-            //         livereload: false
-            //     }
-            // }
         },
 
         clean: {
@@ -174,88 +159,45 @@ module.exports = function (grunt) {
                     dest: '<%= config.dist %>',
                     src: [
                         '*.{ico,png,txt,xml}',
-                        '<%= config.images %>/{,*/}*.{webp,gif}',
-                        'fonts/{,*/}*.*'
+                        'img/{,*/}*.{webp,gif,png,jpg}',
+                        'fonts/{,*/}*.*',
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/underscore/underscore.js'
                     ]
                 }]
             }
         },
 
-        concurrent: {
-            dev: [
-                'less:dev'
-            ],
-            dist: [
-                'less:dist',
-                'imagemin',
-                'svgmin',
-                'htmlmin'
-            ]
+        concat: {
+          js: {
+            options: {
+              banner: '(function(){\nvar GAME = {};\n',
+              footer: '})();'
+            },
+            src: ['<%= config.src %>/modules/*/*.js','<%= config.src %>/modules/main.js'],
+            dest: '<%= config.dist %>/js/game.js'
+          },
+          css: {
+            src: ['<%= config.src %>/modules/*/*.css'],
+            dest: '<%= config.dist %>/css/game.css'
+          },
+          templates: {
+            src: ['<%= config.src %>/modules/*/*.html'],
+            dest: '.tmp/templates.html'
+          }
         },
 
-        requirejs: {
-            dev: {
-                options: {
-                    optimize: 'none',
-                    preserveLicenseComments: true,
-                    generateSourceMaps: true,
-                    removeCombined: true,
-                    useStrict: true,
-                    baseUrl: '<%= config.src %>/scripts',
-                    mainConfigFile: '<%= config.src %>/config-dev.js',
-                    dir: '.tmp/scripts',
-                    keepBuildDir: true
-                }
-            },
-            dist: {
-                options: {
-                    optimize: 'uglify',
-                    preserveLicenseComments: false,
-                    generateSourceMaps: false,
-                    removeCombined: true,
-                    useStrict: true,
-                    baseUrl: '<%= config.src %>/scripts',
-                    mainConfigFile: '<%= config.src %>/config-dist.js',
-                    dir: '<%= config.dist %>/scripts',
-                    keepBuildDir: true
-                }
+        processhtml: {
+          dist: {
+            files: {
+              'dist/index.html': ['app/index.html']
             }
-        },
-
-        less: {
-            dev: {
-                options: {
-                    sourceMap: true
-                },
-                files: {
-                    '.tmp/styles/styles.css': '<%= config.src %>/styles/styles.less'
-                }
-            },
-            dist: {
-                options: {
-                    compress: true,
-                    report: true
-                },
-                files: {
-                    '<%= config.dist %>/styles/styles.css': '<%= config.src %>/styles/styles.less'
-                }
-            }
+          }
         }
-
     });
 
     // Tasks.
-    grunt.registerTask('default', ['jshint', 'build']);
-
-    grunt.registerTask('build', [
-        'clean:dist',
-        'useminPrepare',
-        'concurrent:dist',
-        'requirejs:dist',
-        'copy:dist',
-        'rev',
-        'usemin'
-    ]);
+    grunt.registerTask('default', ['serve']);
 
     grunt.registerTask('serve', function (target) {
 
@@ -265,8 +207,9 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
-            'concurrent:dev',
-            'requirejs:dev',
+            'concat',
+            'processhtml',
+            'copy',
             'connect:livereload',
             'watch'
         ]);
