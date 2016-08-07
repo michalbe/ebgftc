@@ -62,6 +62,6 @@
     "nomen": true,
     "onevar": true,
     "passfail": false,
-    "predef": ["require", "define", "$", "_"]
+    "predef": ["require", "define", "$", "_", "GAME"]
 
 }
