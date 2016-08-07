@@ -199,6 +199,14 @@ module.exports = function (grunt) {
             src: ['<%= config.src %>/modules/*/*.html'],
             dest: '.tmp/templates.html'
           }
+        },
+
+        processhtml: {
+          dist: {
+            files: {
+              'dist/index.html': ['app/index.html']
+            }
+          }
         }
     });
 
@@ -215,6 +223,7 @@ module.exports = function (grunt) {
             'clean:server',
             // 'concurrent:dev',
             'concat',
+            'processhtml',
             'connect:livereload',
             'watch'
         ]);
