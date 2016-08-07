@@ -15,7 +15,7 @@ module.exports = function (grunt) {
         config: {
             src: 'app',
             dist: 'dist',
-            images: 'bin'
+            images: 'app/img'
         },
 
         'bower-install': {
@@ -26,14 +26,6 @@ module.exports = function (grunt) {
         },
 
         watch: {
-            less: {
-                files: ['<%= config.src %>/styles/*.less'],
-                tasks: ['less:dev'],
-                options: {
-                    spawn: false,
-                    interrupt: true
-                },
-            },
             livereload: {
                 options: {
                     livereload: '<%= connect.options.livereload %>'
@@ -41,8 +33,8 @@ module.exports = function (grunt) {
                 files: [
                     '<%= config.src %>/*.html',
                     // '.tmp/styles/{,*/}*.css',
-                    '<%= config.src %>/scripts/{,*/}*.js',
-                    '<%= config.src %>/scripts/{,*/}*.html',
+                    '<%= config.src %>/modules/{,*/}*.js',
+                    '<%= config.src %>/modules/{,*/}*.html',
                     '<%= config.src %>/<%= config.images %>/{,*/}*.{gif,jpeg,jpg,png,svg,webp}'
                 ],
                 tasks: [
@@ -64,19 +56,11 @@ module.exports = function (grunt) {
                 options: {
                     open: true,
                     base: [
-                        'dist',
-                        '<%= config.src %>'
+                        'dist'
+                        // '<%= config.src %>'
                     ]
                 }
             }
-            // ,
-            // dist: {
-            //     options: {
-            //         open: true,
-            //         base: '<%= config.dist %>',
-            //         livereload: false
-            //     }
-            // }
         },
 
         clean: {
@@ -175,8 +159,10 @@ module.exports = function (grunt) {
                     dest: '<%= config.dist %>',
                     src: [
                         '*.{ico,png,txt,xml}',
-                        '<%= config.images %>/{,*/}*.{webp,gif}',
-                        'fonts/{,*/}*.*'
+                        'img/{,*/}*.{webp,gif,png,jpg}',
+                        'fonts/{,*/}*.*',
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/underscore/underscore.js'
                     ]
                 }]
             }
@@ -221,9 +207,9 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
-            // 'concurrent:dev',
             'concat',
             'processhtml',
+            'copy',
             'connect:livereload',
             'watch'
         ]);

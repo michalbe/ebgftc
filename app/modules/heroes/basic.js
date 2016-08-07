@@ -23,19 +23,25 @@ GAME.heroes.BasicHero = function() {
     console.log('attack!');
   };
 
+  this.recharge = function() {
+
+  };
+
   this.afterRecharge = function() { };
 
   this.init = function() {
+    var self = this;
     var spriteX = (-1 * this.spritePosition.x * this.width);
     var spriteY = (-1 * this.spritePosition.y * this.height);
-    this.element = $('<div style="position:absolute"></div>')
+    this.element = $('<div class="hero"></div>')
       .css({
         zIndex: 100,
         width: this.width,
         height: this.height,
         backgroundImage: 'url(../img/' + this.sprite + ')',
         backgroundPosition: spriteX + 'px ' + spriteY + 'px'
-      });
+      })
+      .attr('title', this.name);
     $('body').append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
   };
@@ -58,10 +64,18 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
+    console.log('moveto', x, y);
     this.render();
   };
 
-  this.handleClick = function() {};
+  this.handleClick = function() {
+    var self = this;
+    if (self.isRecharging) {
+      return;
+    }
+
+    this.attack(this.recharge);
+  };
 
   return this;
 };
