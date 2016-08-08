@@ -34,7 +34,7 @@ GAME.utils = {
     range = range || 100;
     return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === position.y && Math.abs(unit.position.x-position.x) < range;
-    }).sort(function() { return orientation; });
+    }).sort(function(a, b) { return orientation < 0 ? (a.position.x - b.position.x) : (b.position.x - a.position.x); });
   },
 
   getUnitsVertically: function(column) {
