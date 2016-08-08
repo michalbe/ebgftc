@@ -20,12 +20,9 @@ GAME.heroes.Warrior = function() {
 
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
-      // enemy.element.removeClass('wounded');
       this.moveTo(enemy.position.x, enemy.position.y, function() {
-        GAME.utils.shake();
-        enemy.element.addClass('wounded');
-        self.moveTo(self.position.x, tempY, function() {
-          enemy.element.removeClass('wounded');
+        enemy.getWound(self.attackPower, function() {
+          self.moveTo(self.position.x, tempY);
         });
       });
     }

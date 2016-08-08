@@ -15,7 +15,7 @@ GAME.heroes.BasicHero = function() {
   // -1 for right
   this.orientation = 1;
   this.damage = 1;
-  this.hp = 5;
+  this.hp = 2;
   this.rechargeTime = 2;
   this.isRecharging = false;
 
@@ -71,6 +71,24 @@ GAME.heroes.BasicHero = function() {
     console.log('moveto', x, y);
 
     this.render(cb);
+  };
+
+  this.getWound = function(power, cb) {
+    this.element.removeClass('wounded');
+    GAME.utils.shake();
+    this.element.addClass('wounded');
+    this.hp -= power;
+    if (this.hp < 1) {
+      this.die();
+    }
+
+    if (typeof cb === 'function') {
+      cb();
+    }
+  };
+
+  this.die = function() {
+    this.element.fadeOut();
   };
 
   this.handleClick = function() {
