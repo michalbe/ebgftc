@@ -4,6 +4,7 @@
 GAME.main = function() {
   $('body').append(GAME.board);
 
+  var units = [];
   var heroClasses = Object.keys(GAME.heroes);
   // hero players
   var heroCount = $('td.player');
@@ -16,10 +17,10 @@ GAME.main = function() {
     var position = $(cell).attr('data-cell').split('-');
     hero.init();
     hero.moveTo(position[0], position[1]);
-    // hero.render();
+    units.push(hero);
   });
 
-  // enemy players
+  // enemy heroes
   var enemies = [];
   heroCount = $('td.enemy');
   _.each(heroCount, function(cell) {
@@ -43,10 +44,14 @@ GAME.main = function() {
 
       $('body').addClass('shake');
     },
-    getEnemiesHorizontaly: function(position, range, orientation) {
+    getEnemiesHorizontaly: function(hero) {
+      var position = hero.position;
+      var range = hero.attackRange + 1;
+      var orientation = hero.orientation;
+      var set = orientation > 0 ? enemies : units;
       range = range || 100;
-      return _.filter(enemies, function(enemy) {
-        return enemy.position.x === position.x && Math.abs(enemy.position.y-position.y) < range;
+      return _.filter(set, function(unit) {
+        return unit.position.x === position.x && Math.abs(unit.position.y-position.y) < range;
       }).sort(function(){ return orientation; });
     }
   };

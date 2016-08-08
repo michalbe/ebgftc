@@ -46,26 +46,31 @@ GAME.heroes.BasicHero = function() {
     this.element.on('click', _.bind(this.handleClick, this));
   };
 
-  this.render = function() {
+  this.render = function(cb) {
     var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
     var cellOffset = cell.offset();
     this.element.animate({
       top: cellOffset.top + ((cell.height() - this.height)/2),
       left: cellOffset.left + ((cell.width() - this.width)/2),
+    }, function() {
+      if (typeof cb === 'function') {
+        cb();
+      }
     })
     .css({
       transform: 'scale(' + this.orientation + ', 1)'
     });
   };
 
-  this.moveTo = function(x, y) {
+  this.moveTo = function(x, y, cb) {
     this.position = {
       x: x,
       y: y
     };
 
     console.log('moveto', x, y);
-    this.render();
+
+    this.render(cb);
   };
 
   this.handleClick = function() {

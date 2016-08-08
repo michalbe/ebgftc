@@ -5,28 +5,29 @@ GAME.heroes.Warrior = function() {
   this.spritePosition = { x: 0, y: 0 };
   this.name = 'Warrior';
 
-  this.attackRange = 10;
+  this.attackRange = 3;
+  this.attackPower = 1;
+  this.hp = 5;
 
   this.attack = function(cb) {
+    var self = this;
     var tempY = this.position.y;
     console.log('pierwej', this.position);
     console.log('pierwej', tempY);
     var affectedEnemies = GAME.utils.getEnemiesHorizontaly(
-      this.position,
-      this.attackRange + 1,
-      this.orientation
+      this
     );
 
     if (affectedEnemies.length > 0) {
-      this.moveTo(affectedEnemies[0].position.x, affectedEnemies[0].position.y);
-
-      setTimeout(_.bind(function() {
+      var enemy = affectedEnemies[0];
+      // enemy.element.removeClass('wounded');
+      this.moveTo(enemy.position.x, enemy.position.y, function() {
         GAME.utils.shake();
-      }, this), 300);
-
-      setTimeout(_.bind(function() {
-        this.moveTo(this.position.x, tempY);
-      }, this), 500);
+        enemy.element.addClass('wounded');
+        self.moveTo(self.position.x, tempY, function() {
+          enemy.element.removeClass('wounded');
+        });
+      });
     }
   };
   return this;
