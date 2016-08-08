@@ -50,7 +50,7 @@ GAME.heroes.BasicHero = function() {
 
     this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
 
-    $('body').append(this.element);
+    GAME.heroContainer.append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
   };
 

@@ -3,6 +3,7 @@
 
 GAME.main = function() {
   $('body').append(GAME.board.template);
+  GAME.heroContainer = $('.board_container');
 
   GAME.units = {};
   GAME.units.greens = [];
@@ -45,6 +46,10 @@ GAME.main = function() {
       top: GAME.board.rows * 105 + 'px',
       left: 105 * i + 'px'
     })
+    .attr({
+      'data-dir': 'up',
+      'data-col': i
+    })
     .html('&uarr;');
 
     $('body').append(button);
@@ -54,10 +59,20 @@ GAME.main = function() {
       top: GAME.board.rows * 110 + 'px',
       left: 105 * i + 'px'
     })
+    .attr({
+      'data-dir': 'down',
+      'data-col': i
+    })
     .html('&darr;');
 
     $('body').append(button);
   }
+
+  $('div.button').on('click', function() {
+    var dir = $(this).attr('data-dir') === 'up' ? -1 : 1;
+    var column = $(this).attr('data-col');
+    GAME.utils.swipeColumn(column, dir);
+  });
 };
 
 $(GAME.main);
