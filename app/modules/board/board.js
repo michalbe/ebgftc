@@ -7,8 +7,12 @@ GAME.board = function() {
   var cols = 11;
   var _template = _.template($('#GameBoardTemplate').html());
 
-  return _template({
+  return {
+    template: _template({
+      rows: rows,
+      cols: cols
+    }),
     rows: rows,
     cols: cols
-  });
-};
+  };
+}();

@@ -34,5 +34,16 @@ GAME.utils = {
     return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === position.y && Math.abs(unit.position.x-position.x) < range;
     }).sort(function(){ return orientation; });
-  }
+  },
+
+  // getUnitsHorizontaly: function(hero) {
+  //   var position = hero.position;
+  //   var range = hero.attackRange + 1;
+  //   var orientation = hero.orientation;
+  //   var set = orientation > 0 ? GAME.units.reds : GAME.units.greens;
+  //   range = range || 100;
+  //   return _.filter(set, function(unit) {
+  //     return unit.alive && unit.position.y === position.y && Math.abs(unit.position.x-position.x) < range;
+  //   }).sort(function(){ return orientation; });
+  // }
 };

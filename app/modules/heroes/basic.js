@@ -55,7 +55,7 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.render = function(cb) {
-    var self = this;
+    // var self = this;
     var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
     var cellOffset = cell.offset();
     this.element.animate({
@@ -71,6 +71,18 @@ GAME.heroes.BasicHero = function() {
     }
 
   };
+
+  this.teleportTo = function(x, y) {
+    this.position = {
+      x: x,
+      y: y
+    };
+
+    this.element.css({
+      top: y * this.height + 'px',
+      left: x * this.width + 'px'
+    });
+  },
 
   this.moveTo = function(x, y, cb) {
     this.position = {

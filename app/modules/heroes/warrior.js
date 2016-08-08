@@ -12,7 +12,6 @@ GAME.heroes.Warrior = function() {
   this.attack = function(cb) {
     var self = this;
     var tempX = this.position.x;
-    console.log('pierwej', this.position);
     var affectedEnemies = GAME.utils.getUnitsHorizontaly(this);
 
     if (affectedEnemies.length > 0) {

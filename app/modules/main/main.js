@@ -2,7 +2,7 @@
 
 
 GAME.main = function() {
-  $('body').append(GAME.board);
+  $('body').append(GAME.board.template);
 
   GAME.units = {};
   GAME.units.greens = [];
@@ -37,6 +37,27 @@ GAME.main = function() {
     GAME.units.reds.push(hero);
   });
 
+  // debug code
+  var button;
+  for (var i = 0; i < GAME.board.cols; i++) {
+    button = $('<div></div>').addClass('button');
+    button.css({
+      top: GAME.board.rows * 105 + 'px',
+      left: 105 * i + 'px'
+    })
+    .html('&uarr;');
+
+    $('body').append(button);
+
+    button = $('<div></div>').addClass('button');
+    button.css({
+      top: GAME.board.rows * 110 + 'px',
+      left: 105 * i + 'px'
+    })
+    .html('&darr;');
+
+    $('body').append(button);
+  }
 };
 
 $(GAME.main);

@@ -1,0 +1,22 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.button {
+  width: 96px;
+  height: 20px;
+  border: 1px solid #ccc;
+  color: #ccc;
+  position: absolute;
+  text-align: center;
+  cursor: pointer;
+  background: white;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.button:hover {
+  background: #ccc;
+  color: white;
+  border: 1px solid white;
+}
