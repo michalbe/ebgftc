@@ -24,8 +24,9 @@ GAME.heroes.BasicHero = function() {
     console.log('attack!');
   };
 
-  this.recharge = function() {
-
+  this.rechargeStart = function() {
+    this.isRecharging = true;
+    this.element.addClass('recharge');
   };
 
   this.afterRecharge = function() { };
@@ -103,7 +104,7 @@ GAME.heroes.BasicHero = function() {
       return;
     }
 
-    this.attack(this.recharge);
+    this.attack(_.bind(this.rechargeStart, this));
   };
 
   return this;

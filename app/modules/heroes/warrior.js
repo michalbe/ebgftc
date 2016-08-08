@@ -7,7 +7,7 @@ GAME.heroes.Warrior = function() {
 
   this.attackRange = 3;
   this.attackPower = 1;
-  this.hp = 5;
+  this.hp = 3;
 
   this.attack = function(cb) {
     var self = this;
@@ -22,6 +22,9 @@ GAME.heroes.Warrior = function() {
       this.moveTo(enemy.position.x, enemy.position.y, function() {
         enemy.getWound(self.attackPower, function() {
           self.moveTo(tempX, self.position.y);
+          if (typeof cb === 'function') {
+            cb();
+          }
         });
       });
     }

@@ -21,3 +21,16 @@
 	animation-iteration-count: 1;
 	animation-timing-function: linear;
 }
+
+@keyframes recharging {
+  0% { opacity: 0.6; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0.6; }
+}
+
+.hero.recharge {
+	animation-name: recharging;
+	animation-duration: 1s;
+  animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
