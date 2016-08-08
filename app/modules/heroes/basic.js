@@ -16,6 +16,7 @@ GAME.heroes.BasicHero = function() {
   this.orientation = 1;
   this.damage = 1;
   this.hp = 2;
+  this.maxHp = this.hp;
   this.rechargeTime = 2;
   this.isRecharging = false;
   this.alive = true;
@@ -32,6 +33,8 @@ GAME.heroes.BasicHero = function() {
   this.afterRecharge = function() { };
 
   this.init = function() {
+    this.maxHp = this.hp;
+
     var self = this;
     var spriteX = (-1 * this.spritePosition.x * this.width);
     var spriteY = (-1 * this.spritePosition.y * this.height);
@@ -44,6 +47,9 @@ GAME.heroes.BasicHero = function() {
         backgroundPosition: spriteX + 'px ' + spriteY + 'px'
       })
       .attr('title', this.name);
+
+    this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
+
     $('body').append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
   };
@@ -59,10 +65,11 @@ GAME.heroes.BasicHero = function() {
       if (typeof cb === 'function') {
         cb();
       }
-    })
-    .css({
-      transform: 'scale(' + this.orientation + ', 1)'
     });
+    if (this.orientation < 0) {
+      this.element.addClass('flipped');
+    }
+
   };
 
   this.moveTo = function(x, y, cb) {
@@ -71,9 +78,14 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
-    console.log('moveto', x, y);
-
     this.render(cb);
+  };
+
+  this.updateHpBar = function() {
+    console.log(((this.hp/this.maxHp)*100), this.maxHp, this.hp);
+    this.hpBar.css({
+      width: ((this.hp/this.maxHp)*100) + '%'
+    });
   };
 
   this.getWound = function(power, cb) {
@@ -81,6 +93,8 @@ GAME.heroes.BasicHero = function() {
     GAME.utils.shake();
     this.element.addClass('wounded');
     this.hp -= power;
+    this.updateHpBar();
+
     if (this.hp < 1) {
       this.die();
     }
