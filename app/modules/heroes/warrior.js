@@ -11,9 +11,8 @@ GAME.heroes.Warrior = function() {
 
   this.attack = function(cb) {
     var self = this;
-    var tempY = this.position.y;
+    var tempX = this.position.x;
     console.log('pierwej', this.position);
-    console.log('pierwej', tempY);
     var affectedEnemies = GAME.utils.getEnemiesHorizontaly(
       this
     );
@@ -22,7 +21,7 @@ GAME.heroes.Warrior = function() {
       var enemy = affectedEnemies[0];
       this.moveTo(enemy.position.x, enemy.position.y, function() {
         enemy.getWound(self.attackPower, function() {
-          self.moveTo(self.position.x, tempY);
+          self.moveTo(tempX, self.position.y);
         });
       });
     }

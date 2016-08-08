@@ -18,6 +18,7 @@ GAME.heroes.BasicHero = function() {
   this.hp = 2;
   this.rechargeTime = 2;
   this.isRecharging = false;
+  this.alive = true;
 
   this.attack = function() {
     console.log('attack!');
@@ -47,6 +48,7 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.render = function(cb) {
+    var self = this;
     var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
     var cellOffset = cell.offset();
     this.element.animate({
@@ -88,7 +90,11 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.die = function() {
-    this.element.fadeOut();
+    var self = this;
+    this.alive = false;
+    this.element.fadeOut(function() {
+      GAME.utils.moveRow(self);
+    });
   };
 
   this.handleClick = function() {
