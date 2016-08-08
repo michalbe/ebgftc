@@ -14,6 +14,7 @@ GAME.heroes.Warrior = function() {
     var tempX = this.position.x;
     var affectedEnemies = GAME.utils.getUnitsHorizontaly(this);
 
+    console.log(affectedEnemies);
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       this.moveTo(enemy.position.x, enemy.position.y, function() {

@@ -78,9 +78,10 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
+    console.log('teleport to', x * (this.width+2) + 'px');
     this.element.css({
       top: y * this.height + 'px',
-      left: x * this.width + 'px'
+      left: x * (this.width+5) + 'px'
     });
   },
 
@@ -90,6 +91,7 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
+    // console.log('move to', this.position);
     this.render(cb);
   };
 
