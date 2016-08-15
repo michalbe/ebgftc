@@ -1,28 +1,5 @@
 /*jshint browser: true*/
 
-GAME.log = (function() {
-  var log = $('<div></div>')
-  .addClass('log');
-  $('body').append(log);
-
-  var addText = function(text) {
-    log.html(log.html() + '<br>'+ text);
-    log.scrollTop(log[0].scrollHeight);
-  };
-
-  return {
-    ge: function(text) {
-      addText('<b>Game event:</b> ' + text);
-    },
-    pa: function(text) {
-      addText('<b>Player action:</b> ' + text);
-    },
-    ua: function(text) {
-      addText('<b>Unit action:</b> ' + text);
-    }
-  };
-})();
-
 GAME.main = function() {
   $('body').append(GAME.board.template);
   GAME.heroContainer = $('.board_container');
@@ -104,11 +81,20 @@ GAME.main = function() {
   GAME.log.ge('Column buttons added');
 
   $('div.button').on('click', function() {
+    var player = GAME.engine.getPlayer();
     var dir = $(this).attr('data-dir') === 'up' ? -1 : 1;
     var column = $(this).attr('data-col');
-    GAME.log.pa('Column nr ' + column + ' swiped ' + $(this).attr('data-dir'));
-    GAME.utils.swipeColumn(column, dir);
+    if (GAME.engine.isMovementState() &&
+      ((player > 0 && column > ~~(GAME.board.cols/2) ||
+      (player < 0 && column < ~~(GAME.board.cols/2))
+    ))) {
+      GAME.log.pa('Column nr ' + column + ' swiped ' + $(this).attr('data-dir'));
+      GAME.utils.swipeColumn(column, dir);
+      GAME.engine.makeMove();
+    }
   });
+
+  GAME.engine.start();
 };
 
 $(GAME.main);

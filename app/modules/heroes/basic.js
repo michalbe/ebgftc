@@ -126,11 +126,11 @@ GAME.heroes.BasicHero = function() {
 
   this.handleClick = function() {
     var self = this;
-    if (self.isRecharging) {
-      return;
+    if (!self.isRecharging && (GAME.engine.isActionState() || GAME.engine.isMovementState())) {
+      GAME.log.ua(this.name + ' attacks');
+      this.attack(_.bind(this.rechargeStart, this));
+      GAME.engine.makeAction();
     }
-    GAME.log.ua(this.name + ' attacks');
-    this.attack(_.bind(this.rechargeStart, this));
   };
 
   return this;
