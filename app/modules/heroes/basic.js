@@ -42,7 +42,7 @@ GAME.heroes.BasicHero = function() {
         height: this.height,
         backgroundImage: 'url(' + GAME.gfx[this.sprite] + ')'
       })
-      .attr('title', this.name);
+      .attr('title', 'x:' + this.position.x + ', y:', this.position.y);
 
     this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
 
@@ -61,7 +61,8 @@ GAME.heroes.BasicHero = function() {
       if (typeof cb === 'function') {
         cb();
       }
-    });
+    })
+    .attr('title', 'x:' + this.position.x + ', y:' + this.position.y);
     if (this.orientation < 0) {
       this.element.addClass('flipped');
     }

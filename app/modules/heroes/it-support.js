@@ -1,11 +1,11 @@
-GAME.heroes.Sorcerer = function() {
+GAME.heroes.ITSupport = function() {
   'use strict';
 
   GAME.heroes.BasicHero.call(this);
   this.sprite = 0;
-  this.name = 'Sorcerer';
+  this.name = 'ITSupport';
 
   return this;
 };
 
-GAME.heroes.Sorcerer.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+GAME.heroes.ITSupport.prototype = Object.create(GAME.heroes.BasicHero.prototype);

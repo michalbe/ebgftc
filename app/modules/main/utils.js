@@ -87,10 +87,47 @@ GAME.utils = {
     _.each(units, function(unit) {
       unit.moveTo(unit.position.x, parseInt(unit.position.y, 10) + direction);
     });
+    this.fillEmptySpots();
   },
 
-  fillEmptySpots: function(orientation) {
-    var set = orientation > 0 ? GAME.units.greens : GAME.units.reds;
-    // for (var i=0; i < ; i++)
+  getUnitByCell: function(x, y) {
+    return _.find(GAME.units.reds.concat(GAME.units.greens), function(unit) {
+      return unit.alive && unit.position.x === x && unit.position.y === y;
+    });
+  },
+
+  fillEmptySpots: function() {
+    var unit;
+    for (var x=0; x<GAME.board.cols; x++) {
+      if (x !== ~~(GAME.board.cols/2)) {
+        for (var y=0; y<GAME.board.rows; y++) {
+          unit = this.getUnitByCell(x, y);
+          if (!unit) {
+            console.log('hej', unit);
+            this.moveRow({
+              orientation: x < ~~(GAME.board.cols/2) ? -1 : 1,
+              position: {x:x, y:y}
+            });
+          }
+        }
+      }
+    }
+    // var self = this;
+    // var set = GAME.units.greens
+    //   .sort(function(a, b) {
+    //     return b.position.x - a.position.x;
+    //   })
+    //   .sort(function(a, b) {
+    //     return b.position.y - a.position.y;
+    //   });
+    // console.log(set[0]);
+    // // _.each(set, function(unit) {
+    // var unit = set[0];
+    //   var isNextFieldEmpty = self.getUnitByCell(unit.position.x - unit.orientation, unit.position.y);
+    //   if (isNextFieldEmpty && unit.position.x - unit.orientation !== ~~(GAME.board.cols/2)) {
+    //     unit.moveTo(unit.position.x - unit.orientation, unit.position.y);
+    //   }
+    // // });
+    // // for (var i=0; i < ; i++)
   }
 };
