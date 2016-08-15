@@ -31,7 +31,7 @@ GAME.utils = {
     });
   },
 
-  getUnitsHorizontaly: function(hero) {
+  getUnitsHorizontalyInRange: function(hero) {
     var position = hero.position;
     var range = hero.attackRange + 1;
     var orientation = hero.orientation;
@@ -40,6 +40,12 @@ GAME.utils = {
     return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === position.y && Math.abs(unit.position.x-position.x) < range;
     }).sort(function(a, b) { return orientation < 0 ? (a.position.x - b.position.x) : (b.position.x - a.position.x); });
+  },
+
+  getUnitsHorizontaly: function(row) {
+    return _.filter(GAME.units.reds.concat(GAME.units.greens), function(unit) {
+      return unit.alive && unit.position.y === parseInt(row, 10);
+    });
   },
 
   getUnitsVertically: function(column) {
@@ -81,5 +87,10 @@ GAME.utils = {
     _.each(units, function(unit) {
       unit.moveTo(unit.position.x, parseInt(unit.position.y, 10) + direction);
     });
+  },
+
+  fillEmptySpots: function(orientation) {
+    var set = orientation > 0 ? GAME.units.greens : GAME.units.reds;
+    // for (var i=0; i < ; i++)
   }
 };

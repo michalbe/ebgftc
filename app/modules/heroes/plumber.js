@@ -12,7 +12,7 @@ GAME.heroes.Plumber = function() {
   this.attack = function(cb) {
     var self = this;
     var tempX = this.position.x;
-    var affectedEnemies = GAME.utils.getUnitsHorizontaly(this);
+    var affectedEnemies = GAME.utils.getUnitsHorizontalyInRange(this);
     console.log(affectedEnemies);
     if (affectedEnemies.length > 0) {
       var moveTo = this.orientation > 0 ? 0 : GAME.board.cols-1;

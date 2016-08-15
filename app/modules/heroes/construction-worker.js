@@ -12,7 +12,7 @@ GAME.heroes.ConstructionWorker = function() {
   this.attack = function(cb) {
     var self = this;
     var tempX = this.position.x;
-    var affectedEnemies = GAME.utils.getUnitsHorizontaly(this);
+    var affectedEnemies = GAME.utils.getUnitsHorizontalyInRange(this);
 
     console.log(affectedEnemies);
     if (affectedEnemies.length > 0) {
