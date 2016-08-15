@@ -96,20 +96,27 @@ GAME.utils = {
     });
   },
 
-  fillEmptySpots: function() {
+  fillHalfBoard: function(orientation) {
     var unit;
-    for (var x=0; x<GAME.board.cols; x++) {
-      if (x !== Math.floor(GAME.board.cols/2)) {
-        for (var y=0; y<GAME.board.rows; y++) {
-          unit = this.getUnitByCell(x, y);
-          if (!unit) {
-            this.moveRow({
-              orientation: x < Math.floor(GAME.board.cols/2) ? -1 : 1,
-              position: {x:x, y:y}
-            });
-          }
+    var start = orientation > 0 ? GAME.board.cols-1 : 0;
+    var end = Math.floor(GAME.board.cols/2);
+    var inc = orientation * -1;
+
+    for (var x = start; orientation > 0 ? x > end : x < end; x += inc) {
+      for (var y=0; y<GAME.board.rows; y++) {
+        unit = this.getUnitByCell(x, y);
+        if (!unit) {
+          this.moveRow({
+            orientation: orientation,
+            position: {x:x, y:y}
+          });
         }
       }
     }
+  },
+
+  fillEmptySpots: function() {
+    this.fillHalfBoard(-1);
+    this.fillHalfBoard(1);
   }
 };
