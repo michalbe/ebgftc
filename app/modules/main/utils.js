@@ -18,7 +18,13 @@ GAME.utils = {
     // set = _.without(set, killedEntity);
 
     _.each(set, function(unit) {
-      if (unit.position.y === emptyPosition.y) {
+      if (
+        unit.position.y === emptyPosition.y &&
+        (
+          (orientation < 0 && unit.position.x < emptyPosition.x) ||
+          (orientation > 0 && unit.position.x > emptyPosition.x)
+        )
+      ) {
         unit.moveTo(
           parseInt(unit.position.x, 10) - orientation, unit.position.y);
       }
@@ -26,7 +32,6 @@ GAME.utils = {
   },
 
   getUnitsHorizontaly: function(hero) {
-    console.log(hero.position);
     var position = hero.position;
     var range = hero.attackRange + 1;
     var orientation = hero.orientation;
