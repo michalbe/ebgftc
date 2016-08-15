@@ -1,9 +1,9 @@
-GAME.heroes.Warrior = function() {
+GAME.heroes.ConstructionWorker = function() {
   'use strict';
 
   GAME.heroes.BasicHero.call(this);
-  this.spritePosition = { x: 0, y: 0 };
-  this.name = 'Warrior';
+  this.sprite = 2;
+  this.name = 'Construction Worker';
 
   this.attackRange = 3;
   this.attackPower = 1;
@@ -30,4 +30,4 @@ GAME.heroes.Warrior = function() {
   return this;
 };
 
-GAME.heroes.Warrior.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+GAME.heroes.ConstructionWorker.prototype = Object.create(GAME.heroes.BasicHero.prototype);

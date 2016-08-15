@@ -2,9 +2,9 @@ GAME.heroes.Wizard = function() {
   'use strict';
 
   GAME.heroes.BasicHero.call(this);
-  this.spritePosition = { x: 2, y: 3 };
+  this.sprite = 1;
   this.name = 'Wizard';
-  
+
   return this;
 };
 

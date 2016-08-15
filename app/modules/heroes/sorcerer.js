@@ -2,9 +2,9 @@ GAME.heroes.Sorcerer = function() {
   'use strict';
 
   GAME.heroes.BasicHero.call(this);
-  this.spritePosition = { x: 1, y: 2 };
+  this.sprite = 0;
   this.name = 'Sorcerer';
-  
+
   return this;
 };
 

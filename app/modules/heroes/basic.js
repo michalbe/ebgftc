@@ -3,10 +3,9 @@ GAME.heroes = GAME.heroes || {};
 
 GAME.heroes.BasicHero = function() {
   'use strict';
-  this.width = 78;
-  this.height = 90;
-  this.sprite = 'sprite.png';
-  this.spritePosition = { x: 0, y:0 };
+  this.width = 84;
+  this.height = 84;
+  this.sprite = 0;
   this.name = 'Basic Hero';
 
   this.position = { x: 0, y: 0 };
@@ -36,15 +35,12 @@ GAME.heroes.BasicHero = function() {
     this.maxHp = this.hp;
 
     var self = this;
-    var spriteX = (-1 * this.spritePosition.x * this.width);
-    var spriteY = (-1 * this.spritePosition.y * this.height);
     this.element = $('<div class="hero"></div>')
       .css({
         zIndex: 100,
         width: this.width,
         height: this.height,
-        backgroundImage: 'url(../img/' + this.sprite + ')',
-        backgroundPosition: spriteX + 'px ' + spriteY + 'px'
+        backgroundImage: 'url(' + GAME.gfx[this.sprite] + ')'
       })
       .attr('title', this.name);
 

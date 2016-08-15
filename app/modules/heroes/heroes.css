@@ -48,4 +48,5 @@
   height: 3px;
   background-color: yellow;
   transition: width 0.2s;
+  transform: translateY(-5px);
 }
