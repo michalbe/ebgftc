@@ -116,10 +116,9 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.die = function() {
-    var self = this;
     this.alive = false;
     this.element.fadeOut(function() {
-      GAME.utils.moveRow(self);
+      GAME.utils.fillEmptySpots();
     });
   };
 

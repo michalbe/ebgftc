@@ -99,35 +99,17 @@ GAME.utils = {
   fillEmptySpots: function() {
     var unit;
     for (var x=0; x<GAME.board.cols; x++) {
-      if (x !== ~~(GAME.board.cols/2)) {
+      if (x !== Math.floor(GAME.board.cols/2)) {
         for (var y=0; y<GAME.board.rows; y++) {
           unit = this.getUnitByCell(x, y);
           if (!unit) {
-            console.log('hej', unit);
             this.moveRow({
-              orientation: x < ~~(GAME.board.cols/2) ? -1 : 1,
+              orientation: x < Math.floor(GAME.board.cols/2) ? -1 : 1,
               position: {x:x, y:y}
             });
           }
         }
       }
     }
-    // var self = this;
-    // var set = GAME.units.greens
-    //   .sort(function(a, b) {
-    //     return b.position.x - a.position.x;
-    //   })
-    //   .sort(function(a, b) {
-    //     return b.position.y - a.position.y;
-    //   });
-    // console.log(set[0]);
-    // // _.each(set, function(unit) {
-    // var unit = set[0];
-    //   var isNextFieldEmpty = self.getUnitByCell(unit.position.x - unit.orientation, unit.position.y);
-    //   if (isNextFieldEmpty && unit.position.x - unit.orientation !== ~~(GAME.board.cols/2)) {
-    //     unit.moveTo(unit.position.x - unit.orientation, unit.position.y);
-    //   }
-    // // });
-    // // for (var i=0; i < ; i++)
   }
 };
