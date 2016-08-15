@@ -1,5 +1,6 @@
 .hero {
   position: absolute;
+  background-size: cover;
 }
 
 .hero.flipped {

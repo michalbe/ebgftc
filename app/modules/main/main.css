@@ -4,7 +4,7 @@ body {
 }
 
 .button {
-  width: 96px;
+  width: 50px;
   height: 20px;
   border: 1px solid #ccc;
   color: #ccc;
@@ -19,4 +19,16 @@ body {
   background: #ccc;
   color: white;
   border: 1px solid white;
+}
+
+div.log {
+  width: 500px;
+  height: 250px;
+  position: absolute;
+  top: 0;
+  right: 100px;
+  border: 1px solid #000;
+  overflow: scroll;
+  font-family: monospace;
+  padding: 5px;
 }

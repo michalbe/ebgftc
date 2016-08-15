@@ -3,8 +3,8 @@ GAME.heroes = GAME.heroes || {};
 
 GAME.heroes.BasicHero = function() {
   'use strict';
-  this.width = 84;
-  this.height = 84;
+  this.width = 36;//48;//84;
+  this.height = 36;//48; //84;
   this.sprite = 0;
   this.name = 'Basic Hero';
 
@@ -100,6 +100,7 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.getWound = function(power, cb) {
+    GAME.log.ua(this.name + ' gets ' + power + ' wound(s)');
     this.element.removeClass('wounded');
     GAME.utils.shake();
     this.element.addClass('wounded');
@@ -117,6 +118,7 @@ GAME.heroes.BasicHero = function() {
 
   this.die = function() {
     this.alive = false;
+    GAME.log.ua(this.name + ' died!');
     this.element.fadeOut(function() {
       GAME.utils.fillEmptySpots();
     });
@@ -127,7 +129,7 @@ GAME.heroes.BasicHero = function() {
     if (self.isRecharging) {
       return;
     }
-
+    GAME.log.ua(this.name + ' attacks');
     this.attack(_.bind(this.rechargeStart, this));
   };
 

@@ -1,5 +1,27 @@
 /*jshint browser: true*/
 
+GAME.log = (function() {
+  var log = $('<div></div>')
+  .addClass('log');
+  $('body').append(log);
+
+  var addText = function(text) {
+    log.html(log.html() + '<br>'+ text);
+    log.scrollTop(log[0].scrollHeight);
+  };
+
+  return {
+    ge: function(text) {
+      addText('<b>Game event:</b> ' + text);
+    },
+    pa: function(text) {
+      addText('<b>Player action:</b> ' + text);
+    },
+    ua: function(text) {
+      addText('<b>Unit action:</b> ' + text);
+    }
+  };
+})();
 
 GAME.main = function() {
   $('body').append(GAME.board.template);
@@ -23,6 +45,8 @@ GAME.main = function() {
     GAME.units.greens.push(hero);
   });
 
+  GAME.log.ge('Green units added');
+
   // enemy heroes
   GAME.units.reds = [];
   heroCount = $('td.enemy');
@@ -40,13 +64,20 @@ GAME.main = function() {
     GAME.units.reds.push(hero);
   });
 
+  GAME.log.ge('Red units added');
+
   // debug code
   var button;
+  var buttonSize = 50;
   for (var i = 0; i < GAME.board.cols; i++) {
+    if (i === ~~(GAME.board.cols/2)) {
+      continue;
+    }
+
     button = $('<div></div>').addClass('button');
     button.css({
-      top: GAME.board.rows * 105 + 'px',
-      left: 105 * i + 'px'
+      top: GAME.board.rows * (buttonSize + 5) + 'px',
+      left: (buttonSize + 4) * i + 'px'
     })
     .attr({
       'data-dir': 'up',
@@ -58,8 +89,8 @@ GAME.main = function() {
 
     button = $('<div></div>').addClass('button');
     button.css({
-      top: GAME.board.rows * 110 + 'px',
-      left: 105 * i + 'px'
+      top: GAME.board.rows * (buttonSize + 10) + 'px',
+      left: (buttonSize + 4) * i + 'px'
     })
     .attr({
       'data-dir': 'down',
@@ -70,9 +101,12 @@ GAME.main = function() {
     $('body').append(button);
   }
 
+  GAME.log.ge('Column buttons added');
+
   $('div.button').on('click', function() {
     var dir = $(this).attr('data-dir') === 'up' ? -1 : 1;
     var column = $(this).attr('data-col');
+    GAME.log.pa('Column nr ' + column + ' swiped ' + $(this).attr('data-dir'));
     GAME.utils.swipeColumn(column, dir);
   });
 };
