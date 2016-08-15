@@ -3,6 +3,10 @@
   position: relative;
 }
 
+#GameBoard {
+  opacity: 0.5;
+}
+
 #GameBoard td {
   width: 100px;
   height: 100px;
