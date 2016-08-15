@@ -20,13 +20,26 @@ GAME.heroes.BasicHero = function() {
   this.isRecharging = false;
   this.alive = true;
 
-  this.attack = function() {
-    console.log('attack!');
+  this.attack = function(cb) {
+    cb();
   };
 
   this.rechargeStart = function() {
     this.isRecharging = true;
     this.element.addClass('recharge');
+    GAME.engine.makeAction();
+  };
+
+  this.rechargeStop = function() {
+    if (this.isRecharging) {
+      GAME.log.ua(this.name + ' is recharged!');
+      this.isRecharging = false;
+      this.element.removeClass('recharge');
+      console.log('recharged', this.element);
+      return true;
+    }
+
+    return false;
   };
 
   this.afterRecharge = function() { };
@@ -75,7 +88,6 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
-    console.log('teleport to', x * (this.width+2) + 'px');
     this.element.css({
       top: y * this.height + 'px',
       left: x * (this.width+5) + 'px'
@@ -93,7 +105,6 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.updateHpBar = function() {
-    console.log(((this.hp/this.maxHp)*100), this.maxHp, this.hp);
     this.hpBar.css({
       width: ((this.hp/this.maxHp)*100) + '%'
     });
@@ -126,10 +137,12 @@ GAME.heroes.BasicHero = function() {
 
   this.handleClick = function() {
     var self = this;
+    if (this.orientation !== GAME.engine.getPlayer()) {
+      return;
+    }
     if (!self.isRecharging && (GAME.engine.isActionState() || GAME.engine.isMovementState())) {
       GAME.log.ua(this.name + ' attacks');
       this.attack(_.bind(this.rechargeStart, this));
-      GAME.engine.makeAction();
     }
   };
 

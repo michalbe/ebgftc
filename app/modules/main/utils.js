@@ -9,6 +9,20 @@ GAME.utils = {
     $('body').addClass('shake');
   },
 
+  rechargeAll: function() {
+    var recharged = 0;
+    var set = GAME.engine.getPlayer() < 0 ? GAME.units.reds : GAME.units.greens;
+
+    console.log('RECZARDŻ', GAME.engine.getPlayer());
+    set.forEach(function(unit) {
+      if (unit.rechargeStop()) {
+        recharged++;
+      }
+    });
+
+    GAME.log.ge(recharged + ' units recharged');
+  },
+
   moveRow: function(killedEntity) {
     var orientation = killedEntity.orientation;
     var emptyPosition = killedEntity.position;

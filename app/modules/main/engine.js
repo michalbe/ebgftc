@@ -3,9 +3,9 @@
 
 GAME.engine = (function() {
   var TURN_STATES = {
-    MOVEMENT: 1,
-    ACTION: 2,
-    RECHARGE: 3
+    RECHARGE: 1,
+    MOVEMENT: 2,
+    ACTION: 3
   };
 
   var activePlayer = 1;
@@ -49,20 +49,26 @@ GAME.engine = (function() {
     },
     endState: function() {
       switch(activeState) {
+        case TURN_STATES.RECHARGE:
+          GAME.log.ge('Recharge phase ended, movement phase starts.');
+          activeState = TURN_STATES.MOVEMENT;
+          break;
         case TURN_STATES.MOVEMENT:
           GAME.log.ge('Movement phase ended, action phase starts.');
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          GAME.log.ge('Action phase ended, Recharge phase starts.');
-          activeState = TURN_STATES.RECHARGE;
-          break;
-        case TURN_STATES.RECHARGE:
-          GAME.log.ge('Recharge phase ended.');
+          GAME.log.ge('Action phase ended, next turn.');
           activePlayer = activePlayer * -1;
-          activeState = TURN_STATES.MOVEMENT;
+          activeState = TURN_STATES.RECHARGE;
           playersTurn();
           GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' players turn.');
+          // this can be moved from here in the future probably...
+          var self = this;
+          setTimeout(function() {
+            GAME.utils.rechargeAll();
+            self.endState();
+          }, 300);
           break;
       }
     },
