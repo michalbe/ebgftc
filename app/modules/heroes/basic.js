@@ -35,7 +35,7 @@ GAME.heroes.BasicHero = function() {
       GAME.log.ua(this.name + ' is recharged!');
       this.isRecharging = false;
       this.element.removeClass('recharge');
-      console.log('recharged', this.element);
+      this.afterRecharge();
       return true;
     }
 
@@ -46,8 +46,6 @@ GAME.heroes.BasicHero = function() {
 
   this.init = function() {
     this.maxHp = this.hp;
-
-    var self = this;
     this.element = $('<div class="hero"></div>')
       .css({
         zIndex: 100,
@@ -100,7 +98,6 @@ GAME.heroes.BasicHero = function() {
       y: y
     };
 
-    // console.log('move to', this.position);
     this.render(cb);
   };
 
