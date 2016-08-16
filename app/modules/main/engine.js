@@ -62,15 +62,16 @@ GAME.engine = (function() {
           activePlayer = activePlayer * -1;
           activeState = TURN_STATES.RECHARGE;
           playersTurn();
-          GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' players turn.');
+          GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
           // this can be moved from here in the future probably...
-          var self = this;
-          setTimeout(function() {
+          setTimeout(_.bind(function() {
             GAME.utils.rechargeAll();
-            self.endState();
-          }, 300);
+            GAME.engine.endState();
+          }, this), 300);
           break;
       }
+
+      window.STATE = activeState;
     },
     getPlayer: function() {
       return activePlayer;

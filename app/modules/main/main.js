@@ -94,6 +94,7 @@ GAME.main = function() {
     }
   });
 
+  $('<button class="button"></button>').html('Skip').appendTo($('body')).on('click', GAME.engine.endState);
   GAME.engine.start();
 };
 
