@@ -5,9 +5,11 @@ var TURNS = (function() {
   var TURN_STATES = {
     RECHARGE: 1,
     MOVEMENT: 2,
-    ACTION: 3
+    ACTION: 3,
+    BUY: 4
   };
 
+  // var isFirstTurn = true;
   var activePlayer = 1;
   var activeState = TURN_STATES.MOVEMENT;
 
@@ -18,9 +20,11 @@ var TURNS = (function() {
 
   // OMG this is awful...
   var players = {
-    '1' : {},
-    '-1': {}
+    '1' : { money: 1 },
+    '-1': { money: 2 }
   };
+
+  var turn = 1;
 
   var playersTurn = function() {
     var output = (activePlayer > 0 ? 'Green' : 'Red') + ' player has now ';
@@ -29,15 +33,20 @@ var TURNS = (function() {
       players[activePlayer][i] = defaultActions[i];
     }
 
+    output += 'and ' + players[activePlayer].money + ' money to spend';
+
     document.body.classList = (activePlayer > 0 ? 'green' : 'red') + '-turn';
     LOG.ge(output);
   };
 
   return {
     start: function() {
+      BUYSCREEN.drawHeroes();
       playersTurn();
     },
-
+    getTurn: function() {
+      return turn;
+    },
     isMovementState: function() {
       return activeState === TURN_STATES.MOVEMENT;
     },
@@ -48,8 +57,16 @@ var TURNS = (function() {
       return activeState === TURN_STATES.RECHARGE;
     },
     endState: function() {
+      console.log('END STATE', activeState);
       switch(activeState) {
         case TURN_STATES.RECHARGE:
+          if (activePlayer > 0) {
+            BUYSCREEN.drawHeroes();
+            turn++;
+          }
+          // this can be moved from here in the future probably...
+          UTILS.rechargeAll();
+          TURNS.earn(turn);
           LOG.ge('Recharge phase ended, movement phase starts.');
           activeState = TURN_STATES.MOVEMENT;
           break;
@@ -58,16 +75,17 @@ var TURNS = (function() {
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          LOG.ge('Action phase ended, next turn.');
+          LOG.ge('Action phase ended, buy phase.');
+          activeState = TURN_STATES.BUY;
+          BUYSCREEN.show();
+          break;
+        case TURN_STATES.BUY:
+          LOG.ge('Buy phase ended, next turn.');
           activePlayer = activePlayer * -1;
-          activeState = TURN_STATES.RECHARGE;
           playersTurn();
           LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
-          // this can be moved from here in the future probably...
-          setTimeout(_.bind(function() {
-            UTILS.rechargeAll();
-            TURNS.endState();
-          }, this), 300);
+          activeState = TURN_STATES.RECHARGE;
+          TURNS.endState();
           break;
       }
 
@@ -76,7 +94,16 @@ var TURNS = (function() {
     getPlayer: function() {
       return activePlayer;
     },
-
+    // THIS CAN BE OPTIMIZED WITH THE ABOVE TO RETURN FULL PLAYER OBJECT
+    getPlayersMoney: function() {
+      return players[activePlayer].money;
+    },
+    pay: function(amount) {
+      players[activePlayer].money = players[activePlayer].money - amount;
+    },
+    earn: function(amount) {
+      players[activePlayer].money = players[activePlayer].money + amount;
+    },
     makeMove: function() {
       players[activePlayer].moves--;
       LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' moved. ' + players[activePlayer].moves + ' left');

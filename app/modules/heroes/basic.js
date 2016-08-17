@@ -136,6 +136,7 @@ HEROES.BasicHero = function() {
   };
 
   this.handleClick = function() {
+    console.log(TURNS.getPlayer());
     var self = this;
     if (this.orientation !== TURNS.getPlayer()) {
       return;

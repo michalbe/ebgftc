@@ -123,6 +123,11 @@ var GAME = function() {
     GAME.heroToAdd = null;
     document.body.classList.remove('placing_hero');
     UTILS.fillEmptySpots();
+    if (TURNS.getPlayersMoney() > 0) {
+      BUYSCREEN.show();
+    } else {
+      TURNS.endState();
+    }
   });
   TURNS.start();
 };

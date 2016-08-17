@@ -4,6 +4,15 @@
 var BUYSCREEN = (function() {
   var element = document.querySelector('.buy_screen');
   var content = element.querySelector('.content');
+  var money = document.createElement('money');
+  var cancel = document.createElement('button');
+  cancel.innerHTML = 'Cancel';
+  cancel.style.display = 'block';
+  
+  cancel.addEventListener('click', function() {
+    TURNS.endState();
+    element.classList.add('hidden');
+  });
 
   var heroes = Object.keys(HEROES);
   heroes.shift();
@@ -15,6 +24,7 @@ var BUYSCREEN = (function() {
 
   var drawHeroes = function() {
     content.innerHTML = '';
+    content.appendChild(money);
     var heroes = [];
     var hero;
     for (var i = 0; i < 3; i++) {
@@ -25,7 +35,7 @@ var BUYSCREEN = (function() {
       createHeroCard(hero);
       heroes.push(hero);
     }
-
+    content.appendChild(cancel);
     console.log(heroes);
   };
 
@@ -42,18 +52,26 @@ var BUYSCREEN = (function() {
     el.appendChild(img);
     el.appendChild(info);
 
-    el.onclick = (function(heroClass) {
+    el.onclick = (function(hero, heroClass) {
       return function() {
+        if (hero.cost > TURNS.getPlayersMoney()) {
+          alert('not enough money...');
+          return;
+        }
+
+        TURNS.pay(hero.cost);
         element.classList.add('hidden');
         TURNS.addHero(heroClass);
       };
-    })(heroClass);
+    })(hero, heroClass);
     content.appendChild(el);
   };
 
   return {
     drawHeroes: drawHeroes,
     show: function() {
+      var player = TURNS.getPlayer() > 0 ? 'Green' : 'Red';
+      money.innerHTML = player + ' player\'s account: ' + TURNS.getPlayersMoney() + '<br/> Turn NR: ' + TURNS.getTurn() + '<br/>';
       element.classList.remove('hidden');
     }
   };
