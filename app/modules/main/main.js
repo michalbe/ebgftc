@@ -8,39 +8,41 @@ GAME.main = function() {
   GAME.units.greens = [];
   var heroClasses = Object.keys(GAME.heroes);
   // hero players
-  var heroCount = $('td.player');
-  _.each(heroCount, function(cell) {
-    var heroClass = 'BasicHero';
-    while (heroClass === 'BasicHero') {
-      heroClass = heroClasses[Math.floor(Math.random() * heroClasses.length)];
+
+  var defaultHero = GAME.heroes.ConstructionWorker;
+
+  var filledRows = Math.min(GAME.board.rows, Math.ceil(GAME.board.rows/2));
+  var filledCols = 2;
+  var startY = Math.floor((GAME.board.rows-filledRows)/2);
+  var hero;
+
+  var startX = ~~(GAME.board.cols/2) + 1;
+  for (var x = startX; x < startX+filledCols; x++) {
+    for (var y = startY; y < GAME.board.rows - startY; y++) {
+      console.log(x, y);
+      hero = new defaultHero();
+      hero.init();
+      // hero.teleportTo(parseInt(position[0], 10), -5);
+      hero.moveTo(x, y);
+      GAME.units.greens.push(hero);
     }
-    var hero = new GAME.heroes[heroClass]();
-    var position = $(cell).attr('data-cell').split('-');
-    hero.init();
-    // hero.teleportTo(parseInt(position[0], 10), -5);
-    hero.moveTo(parseInt(position[0], 10), parseInt(position[1], 10));
-    GAME.units.greens.push(hero);
-  });
+  }
 
   GAME.log.ge('Green units added');
 
-  // enemy heroes
   GAME.units.reds = [];
-  heroCount = $('td.enemy');
-  _.each(heroCount, function(cell) {
-    var heroClass = 'BasicHero';
-    while (heroClass === 'BasicHero') {
-      heroClass = heroClasses[Math.floor(Math.random() * heroClasses.length)];
+  startX = ~~(GAME.board.cols/2) - 2;
+  for (x = startX; x < startX+filledCols; x++) {
+    for (y = startY; y < GAME.board.rows - startY; y++) {
+      console.log(x, y);
+      hero = new defaultHero();
+      hero.orientation = -1;
+      hero.init();
+      // hero.teleportTo(parseInt(position[0], 10), -5);
+      hero.moveTo(x, y);
+      GAME.units.reds.push(hero);
     }
-    var hero = new GAME.heroes[heroClass]();
-    var position = $(cell).attr('data-cell').split('-');
-    hero.init();
-    hero.orientation = -1;
-    // hero.teleportTo(parseInt(position[0], 10), -5);
-    hero.moveTo(parseInt(position[0], 10), parseInt(position[1], 10));
-    GAME.units.reds.push(hero);
-  });
-
+  }
   GAME.log.ge('Red units added');
 
   // debug code
