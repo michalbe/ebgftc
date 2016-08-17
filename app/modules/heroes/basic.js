@@ -13,6 +13,9 @@ GAME.heroes.BasicHero = function() {
   // 1 for left
   // -1 for right
   this.orientation = 1;
+  this.cost = 1;
+  
+  // is this the same as attackPower?
   this.damage = 1;
   this.hp = 2;
   this.maxHp = this.hp;

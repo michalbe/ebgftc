@@ -5,6 +5,7 @@ GAME.heroes.Paramedic = function() {
   this.sprite = 1;
   this.name = 'Paramedic';
 
+  this.cost = 3;
   return this;
 };
 

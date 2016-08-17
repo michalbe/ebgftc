@@ -5,6 +5,7 @@ GAME.heroes.ITSupport = function() {
   this.sprite = 0;
   this.name = 'ITSupport';
 
+  this.cost = 1;
   return this;
 };
 

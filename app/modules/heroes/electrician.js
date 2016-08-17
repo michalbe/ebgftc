@@ -5,6 +5,7 @@ GAME.heroes.Electrician = function() {
   this.sprite = 3;
   this.name = 'Electrician';
 
+  this.cost = 1;
   return this;
 };
 

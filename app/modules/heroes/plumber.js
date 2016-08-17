@@ -5,6 +5,7 @@ GAME.heroes.Plumber = function() {
   this.sprite = 5;
   this.name = 'Plumber';
 
+  this.cost = 4;
   this.attackRange = 12;
   this.attackPower = 1;
   this.hp = 1;

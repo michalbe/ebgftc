@@ -5,6 +5,7 @@ GAME.heroes.Psychologist = function() {
   this.sprite = 4;
   this.name = 'Psychologist';
 
+  this.cost = 5;
   return this;
 };
 

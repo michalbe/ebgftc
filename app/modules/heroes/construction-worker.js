@@ -5,6 +5,7 @@ GAME.heroes.ConstructionWorker = function() {
   this.sprite = 2;
   this.name = 'Construction Worker';
 
+  this.cost = 0;
   this.attackRange = 3;
   this.attackPower = 1;
   this.hp = 1;
