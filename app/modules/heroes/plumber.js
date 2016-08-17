@@ -1,7 +1,7 @@
-GAME.heroes.Plumber = function() {
+HEROES.Plumber = function() {
   'use strict';
 
-  GAME.heroes.BasicHero.call(this);
+  HEROES.BasicHero.call(this);
   this.sprite = 5;
   this.name = 'Plumber';
 
@@ -13,10 +13,10 @@ GAME.heroes.Plumber = function() {
   this.attack = function(cb) {
     var self = this;
     var tempX = this.position.x;
-    var affectedEnemies = GAME.utils.getUnitsHorizontalyInRange(this);
+    var affectedEnemies = UTILS.getUnitsHorizontalyInRange(this);
     console.log(affectedEnemies);
     if (affectedEnemies.length > 0) {
-      var moveTo = this.orientation > 0 ? 0 : GAME.board.cols-1;
+      var moveTo = this.orientation > 0 ? 0 : BOARD.cols-1;
       this.moveTo(moveTo, self.position.y, function() {
           self.moveTo(tempX, self.position.y);
           affectedEnemies.forEach(function(enemy) {
@@ -34,4 +34,4 @@ GAME.heroes.Plumber = function() {
   return this;
 };
 
-GAME.heroes.Plumber.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+HEROES.Plumber.prototype = Object.create(HEROES.BasicHero.prototype);

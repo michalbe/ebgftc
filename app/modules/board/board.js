@@ -1,6 +1,6 @@
 /*jshint browser: true*/
 
-GAME.board = function() {
+var BOARD = (function() {
   'use strict';
 
   var rows = 5;
@@ -15,4 +15,4 @@ GAME.board = function() {
     rows: rows,
     cols: cols
   };
-}();
+})();

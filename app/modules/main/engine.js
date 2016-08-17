@@ -1,7 +1,7 @@
 /*jshint browser: true*/
 
 
-GAME.engine = (function() {
+var TURNS = (function() {
   var TURN_STATES = {
     RECHARGE: 1,
     MOVEMENT: 2,
@@ -30,7 +30,7 @@ GAME.engine = (function() {
     }
 
     document.body.classList = (activePlayer > 0 ? 'green' : 'red') + '-turn';
-    GAME.log.ge(output);
+    LOG.ge(output);
   };
 
   return {
@@ -50,23 +50,23 @@ GAME.engine = (function() {
     endState: function() {
       switch(activeState) {
         case TURN_STATES.RECHARGE:
-          GAME.log.ge('Recharge phase ended, movement phase starts.');
+          LOG.ge('Recharge phase ended, movement phase starts.');
           activeState = TURN_STATES.MOVEMENT;
           break;
         case TURN_STATES.MOVEMENT:
-          GAME.log.ge('Movement phase ended, action phase starts.');
+          LOG.ge('Movement phase ended, action phase starts.');
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          GAME.log.ge('Action phase ended, next turn.');
+          LOG.ge('Action phase ended, next turn.');
           activePlayer = activePlayer * -1;
           activeState = TURN_STATES.RECHARGE;
           playersTurn();
-          GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
+          LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
           // this can be moved from here in the future probably...
           setTimeout(_.bind(function() {
-            GAME.utils.rechargeAll();
-            GAME.engine.endState();
+            UTILS.rechargeAll();
+            TURNS.endState();
           }, this), 300);
           break;
       }
@@ -79,7 +79,7 @@ GAME.engine = (function() {
 
     makeMove: function() {
       players[activePlayer].moves--;
-      GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' moved. ' + players[activePlayer].moves + ' left');
+      LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' moved. ' + players[activePlayer].moves + ' left');
       if (players[activePlayer].moves === 0) {
         this.endState();
       }
@@ -90,7 +90,7 @@ GAME.engine = (function() {
         this.endState();
       }
       players[activePlayer].actions--;
-      GAME.log.ge((activePlayer > 0 ? 'Green' : 'Red') + ' performed action. ' + players[activePlayer].actions + ' left');
+      LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' performed action. ' + players[activePlayer].actions + ' left');
       if (players[activePlayer].actions === 0) {
         this.endState();
       }

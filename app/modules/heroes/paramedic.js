@@ -1,7 +1,7 @@
-GAME.heroes.Paramedic = function() {
+HEROES.Paramedic = function() {
   'use strict';
 
-  GAME.heroes.BasicHero.call(this);
+  HEROES.BasicHero.call(this);
   this.sprite = 1;
   this.name = 'Paramedic';
 
@@ -9,4 +9,4 @@ GAME.heroes.Paramedic = function() {
   return this;
 };
 
-GAME.heroes.Paramedic.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+HEROES.Paramedic.prototype = Object.create(HEROES.BasicHero.prototype);

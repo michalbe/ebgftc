@@ -1,7 +1,7 @@
-GAME.heroes.Electrician = function() {
+HEROES.Electrician = function() {
   'use strict';
 
-  GAME.heroes.BasicHero.call(this);
+  HEROES.BasicHero.call(this);
   this.sprite = 3;
   this.name = 'Electrician';
 
@@ -9,4 +9,4 @@ GAME.heroes.Electrician = function() {
   return this;
 };
 
-GAME.heroes.Electrician.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+HEROES.Electrician.prototype = Object.create(HEROES.BasicHero.prototype);

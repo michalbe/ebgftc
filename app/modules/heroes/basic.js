@@ -1,7 +1,7 @@
 /*jshint browser: true*/
-GAME.heroes = GAME.heroes || {};
+var HEROES = {};
 
-GAME.heroes.BasicHero = function() {
+HEROES.BasicHero = function() {
   'use strict';
   this.width = 36;//48;//84;
   this.height = 36;//48; //84;
@@ -14,7 +14,7 @@ GAME.heroes.BasicHero = function() {
   // -1 for right
   this.orientation = 1;
   this.cost = 1;
-  
+
   // is this the same as attackPower?
   this.damage = 1;
   this.hp = 2;
@@ -30,12 +30,12 @@ GAME.heroes.BasicHero = function() {
   this.rechargeStart = function() {
     this.isRecharging = true;
     this.element.addClass('recharge');
-    GAME.engine.makeAction();
+    TURNS.makeAction();
   };
 
   this.rechargeStop = function() {
     if (this.isRecharging) {
-      GAME.log.ua(this.name + ' is recharged!');
+      LOG.ua(this.name + ' is recharged!');
       this.isRecharging = false;
       this.element.removeClass('recharge');
       this.afterRecharge();
@@ -54,7 +54,7 @@ GAME.heroes.BasicHero = function() {
         zIndex: 100,
         width: this.width,
         height: this.height,
-        backgroundImage: 'url(' + GAME.gfx[this.sprite] + ')'
+        backgroundImage: 'url(' + GFX[this.sprite] + ')'
       })
       .attr('title', 'x:' + this.position.x + ', y:', this.position.y);
 
@@ -111,9 +111,9 @@ GAME.heroes.BasicHero = function() {
   };
 
   this.getWound = function(power, cb) {
-    GAME.log.ua(this.name + ' gets ' + power + ' wound(s)');
+    LOG.ua(this.name + ' gets ' + power + ' wound(s)');
     this.element.removeClass('wounded');
-    GAME.utils.shake();
+    UTILS.shake();
     this.element.addClass('wounded');
     this.hp -= power;
     this.updateHpBar();
@@ -129,19 +129,19 @@ GAME.heroes.BasicHero = function() {
 
   this.die = function() {
     this.alive = false;
-    GAME.log.ua(this.name + ' died!');
+    LOG.ua(this.name + ' died!');
     this.element.fadeOut(function() {
-      GAME.utils.fillEmptySpots();
+      UTILS.fillEmptySpots();
     });
   };
 
   this.handleClick = function() {
     var self = this;
-    if (this.orientation !== GAME.engine.getPlayer()) {
+    if (this.orientation !== TURNS.getPlayer()) {
       return;
     }
-    if (!self.isRecharging && (GAME.engine.isActionState() || GAME.engine.isMovementState())) {
-      GAME.log.ua(this.name + ' attacks');
+    if (!self.isRecharging && (TURNS.isActionState() || TURNS.isMovementState())) {
+      LOG.ua(this.name + ' attacks');
       this.attack(_.bind(this.rechargeStart, this));
     }
   };

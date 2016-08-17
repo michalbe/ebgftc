@@ -1,4 +1,4 @@
-GAME.log = (function() {
+var LOG = (function() {
   var log = $('<div></div>')
   .addClass('log');
   $('body').append(log);

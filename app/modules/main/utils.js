@@ -1,6 +1,6 @@
 /*jshint browser: true*/
 
-GAME.utils = {
+var UTILS = {
   shake: function() {
     $('body').one('animationend', function(){
       $('body').removeClass('shake');
@@ -11,16 +11,16 @@ GAME.utils = {
 
   rechargeAll: function() {
     var recharged = 0;
-    var set = GAME.engine.getPlayer() < 0 ? GAME.units.reds : GAME.units.greens;
+    var set = TURNS.getPlayer() < 0 ? GAME.units.reds : GAME.units.greens;
 
-    console.log('RECZARDŻ', GAME.engine.getPlayer());
+    console.log('RECZARDŻ', TURNS.getPlayer());
     set.forEach(function(unit) {
       if (unit.rechargeStop()) {
         recharged++;
       }
     });
 
-    GAME.log.ge(recharged + ' units recharged');
+    LOG.ge(recharged + ' units recharged');
   },
 
   moveRow: function(killedEntity) {
@@ -79,12 +79,12 @@ GAME.utils = {
       method = 'shift';
     }
 
-    var teleportY = direction > 0 ? -1 : GAME.board.rows;
-    var moveToY = direction > 0 ? 0 : GAME.board.rows - 1;
+    var teleportY = direction > 0 ? -1 : BOARD.rows;
+    var moveToY = direction > 0 ? 0 : BOARD.rows - 1;
     var unitToTeleport = units[method]();
 
     if (
-      !(direction > 0 && unitToTeleport.position.y !== GAME.board.rows - 1 ||
+      !(direction > 0 && unitToTeleport.position.y !== BOARD.rows - 1 ||
       direction < 0 && unitToTeleport.position.y !== 0)
     ) {
       // no teleport, empty spot at the end
@@ -112,12 +112,12 @@ GAME.utils = {
 
   fillHalfBoard: function(orientation) {
     var unit;
-    var start = orientation > 0 ? GAME.board.cols-1 : 0;
-    var end = Math.floor(GAME.board.cols/2);
+    var start = orientation > 0 ? BOARD.cols-1 : 0;
+    var end = Math.floor(BOARD.cols/2);
     var inc = orientation * -1;
 
     for (var x = start; orientation > 0 ? x > end : x < end; x += inc) {
-      for (var y=0; y<GAME.board.rows; y++) {
+      for (var y=0; y<BOARD.rows; y++) {
         unit = this.getUnitByCell(x, y);
         if (!unit) {
           this.moveRow({

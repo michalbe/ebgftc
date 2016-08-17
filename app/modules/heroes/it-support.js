@@ -1,7 +1,7 @@
-GAME.heroes.ITSupport = function() {
+HEROES.ITSupport = function() {
   'use strict';
 
-  GAME.heroes.BasicHero.call(this);
+  HEROES.BasicHero.call(this);
   this.sprite = 0;
   this.name = 'ITSupport';
 
@@ -9,4 +9,4 @@ GAME.heroes.ITSupport = function() {
   return this;
 };
 
-GAME.heroes.ITSupport.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+HEROES.ITSupport.prototype = Object.create(HEROES.BasicHero.prototype);

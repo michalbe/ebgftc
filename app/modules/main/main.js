@@ -1,24 +1,24 @@
 /*jshint browser: true*/
 
-GAME.main = function() {
-  $('body').append(GAME.board.template);
+var GAME = function() {
+  $('body').append(BOARD.template);
   GAME.heroContainer = $('.board_container');
 
   GAME.units = {};
   GAME.units.greens = [];
-  var heroClasses = Object.keys(GAME.heroes);
+  var heroClasses = Object.keys(HEROES);
   // hero players
 
-  var defaultHero = GAME.heroes.ConstructionWorker;
+  var defaultHero = HEROES.ConstructionWorker;
 
-  var filledRows = Math.min(GAME.board.rows, Math.ceil(GAME.board.rows/2));
+  var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 2;
-  var startY = Math.floor((GAME.board.rows-filledRows)/2);
+  var startY = Math.floor((BOARD.rows-filledRows)/2);
   var hero;
 
-  var startX = ~~(GAME.board.cols/2) + 1;
+  var startX = ~~(BOARD.cols/2) + 1;
   for (var x = startX; x < startX+filledCols; x++) {
-    for (var y = startY; y < GAME.board.rows - startY; y++) {
+    for (var y = startY; y < BOARD.rows - startY; y++) {
       hero = new defaultHero();
       hero.init();
       hero.moveTo(x, y);
@@ -26,12 +26,12 @@ GAME.main = function() {
     }
   }
 
-  GAME.log.ge('Green units added');
+  LOG.ge('Green units added');
 
   GAME.units.reds = [];
-  startX = ~~(GAME.board.cols/2) - 2;
+  startX = ~~(BOARD.cols/2) - 2;
   for (x = startX; x < startX+filledCols; x++) {
-    for (y = startY; y < GAME.board.rows - startY; y++) {
+    for (y = startY; y < BOARD.rows - startY; y++) {
       hero = new defaultHero();
       hero.orientation = -1;
       hero.init();
@@ -44,26 +44,26 @@ GAME.main = function() {
   // hero = new defaultHero();
   // hero.orientation = -1;
   // hero.init();
-  // hero.moveTo(startX-1, ~~(GAME.board.rows/2));
+  // hero.moveTo(startX-1, ~~(BOARD.rows/2));
   // GAME.units.reds.push(hero);
   // hero = new defaultHero();
   // hero.orientation = -1;
   // hero.init();
-  // hero.moveTo(startX-2, ~~(GAME.board.rows/2));
+  // hero.moveTo(startX-2, ~~(BOARD.rows/2));
   // GAME.units.reds.push(hero);
-  // GAME.log.ge('Red units added');
+  // LOG.ge('Red units added');
 
   // debug code
   var button;
   var buttonSize = 50;
-  for (var i = 0; i < GAME.board.cols; i++) {
-    if (i === ~~(GAME.board.cols/2)) {
+  for (var i = 0; i < BOARD.cols; i++) {
+    if (i === ~~(BOARD.cols/2)) {
       continue;
     }
 
     button = $('<div></div>').addClass('button');
     button.css({
-      top: GAME.board.rows * (buttonSize + 5) + 'px',
+      top: BOARD.rows * (buttonSize + 5) + 'px',
       left: (buttonSize + 4) * i + 'px'
     })
     .attr({
@@ -76,7 +76,7 @@ GAME.main = function() {
 
     button = $('<div></div>').addClass('button');
     button.css({
-      top: GAME.board.rows * (buttonSize + 10) + 'px',
+      top: BOARD.rows * (buttonSize + 10) + 'px',
       left: (buttonSize + 4) * i + 'px'
     })
     .attr({
@@ -88,24 +88,26 @@ GAME.main = function() {
     $('body').append(button);
   }
 
-  GAME.log.ge('Column buttons added');
+  LOG.ge('Column buttons added');
 
   $('div.button').on('click', function() {
-    var player = GAME.engine.getPlayer();
+    var player = TURNS.getPlayer();
     var dir = $(this).attr('data-dir') === 'up' ? -1 : 1;
     var column = $(this).attr('data-col');
-    if (GAME.engine.isMovementState() &&
-      ((player > 0 && column > ~~(GAME.board.cols/2) ||
-      (player < 0 && column < ~~(GAME.board.cols/2))
+    if (TURNS.isMovementState() &&
+      ((player > 0 && column > ~~(BOARD.cols/2) ||
+      (player < 0 && column < ~~(BOARD.cols/2))
     ))) {
-      GAME.log.pa('Column nr ' + column + ' swiped ' + $(this).attr('data-dir'));
-      GAME.utils.swipeColumn(column, dir);
-      GAME.engine.makeMove();
+      LOG.pa('Column nr ' + column + ' swiped ' + $(this).attr('data-dir'));
+      UTILS.swipeColumn(column, dir);
+      TURNS.makeMove();
     }
   });
 
-  $('<button class="button"></button>').html('Skip').appendTo($('body')).on('click', GAME.engine.endState);
-  GAME.engine.start();
+  $('<button class="button"></button>').html('Skip').appendTo($('body')).on('click', TURNS.endState);
+
+
+  TURNS.start();
 };
 
-$(GAME.main);
+$(GAME);

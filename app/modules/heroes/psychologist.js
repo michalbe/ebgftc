@@ -1,7 +1,7 @@
-GAME.heroes.Psychologist = function() {
+HEROES.Psychologist = function() {
   'use strict';
 
-  GAME.heroes.BasicHero.call(this);
+  HEROES.BasicHero.call(this);
   this.sprite = 4;
   this.name = 'Psychologist';
 
@@ -9,4 +9,4 @@ GAME.heroes.Psychologist = function() {
   return this;
 };
 
-GAME.heroes.Psychologist.prototype = Object.create(GAME.heroes.BasicHero.prototype);
+HEROES.Psychologist.prototype = Object.create(HEROES.BasicHero.prototype);
