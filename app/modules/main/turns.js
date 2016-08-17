@@ -94,6 +94,17 @@ var TURNS = (function() {
       if (players[activePlayer].actions === 0) {
         this.endState();
       }
+    },
+
+    addHero: function(heroClass) {
+      var set = activePlayer > 0 ? 'greens' : 'reds';
+      var hero = new HEROES[heroClass]();
+      hero.init();
+      hero.orientation = activePlayer;
+      LOG.ge('Choose where to place your ' + hero.name);
+      GAME.units[set].push(hero);
+      GAME.heroToAdd = hero;
+      document.body.classList.add('placing_hero');
     }
   };
 })();

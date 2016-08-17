@@ -6,20 +6,20 @@ var GAME = function() {
 
   GAME.units = {};
   GAME.units.greens = [];
-  var heroClasses = Object.keys(HEROES);
   // hero players
 
-  var defaultHero = HEROES.ConstructionWorker;
+  var DefaultHero = HEROES.ConstructionWorker;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 2;
   var startY = Math.floor((BOARD.rows-filledRows)/2);
   var hero;
+  var y, x;
 
   var startX = ~~(BOARD.cols/2) + 1;
-  for (var x = startX; x < startX+filledCols; x++) {
-    for (var y = startY; y < BOARD.rows - startY; y++) {
-      hero = new defaultHero();
+  for (x = startX; x < startX+filledCols; x++) {
+    for (y = startY; y < BOARD.rows - startY; y++) {
+      hero = new DefaultHero();
       hero.init();
       hero.moveTo(x, y);
       GAME.units.greens.push(hero);
@@ -32,7 +32,7 @@ var GAME = function() {
   startX = ~~(BOARD.cols/2) - 2;
   for (x = startX; x < startX+filledCols; x++) {
     for (y = startY; y < BOARD.rows - startY; y++) {
-      hero = new defaultHero();
+      hero = new DefaultHero();
       hero.orientation = -1;
       hero.init();
       hero.moveTo(x, y);
@@ -106,7 +106,24 @@ var GAME = function() {
 
   $('<button class="button"></button>').html('Skip').appendTo($('body')).on('click', TURNS.endState);
 
-
+  $('td.player, td.enemy').on('click', function(evt) {
+    if (
+      !document.body.classList.contains('placing_hero') ||
+      !GAME.heroToAdd ||
+      (GAME.heroToAdd.orientation > 0 && !evt.target.classList.contains('player')) ||
+      (GAME.heroToAdd.orientation < 0 && !evt.target.classList.contains('enemy'))
+    ) {
+      console.log('no placing hero')
+      return;
+    }
+    var coords = evt.target.dataset.cell.split('-');
+    console.log(coords);
+    GAME.heroToAdd.moveTo(parseInt(coords[0]), parseInt(coords[1]));
+    LOG.ge(GAME.heroToAdd.name + ' added!');
+    GAME.heroToAdd = null;
+    document.body.classList.remove('placing_hero');
+    UTILS.fillEmptySpots();
+  });
   TURNS.start();
 };
 

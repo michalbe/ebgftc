@@ -5,7 +5,7 @@ HEROES.ConstructionWorker = function() {
   this.sprite = 2;
   this.name = 'Construction Worker';
 
-  this.cost = 0;
+  this.cost = 1;
   this.attackRange = 3;
   this.attackPower = 1;
   this.hp = 1;
@@ -15,7 +15,6 @@ HEROES.ConstructionWorker = function() {
     var tempX = this.position.x;
     var affectedEnemies = UTILS.getUnitsHorizontalyInRange(this);
 
-    console.log(affectedEnemies);
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       this.moveTo(enemy.position.x, enemy.position.y, function() {
