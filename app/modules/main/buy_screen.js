@@ -8,7 +8,7 @@ var BUYSCREEN = (function() {
   var cancel = document.createElement('button');
   cancel.innerHTML = 'Cancel';
   cancel.style.display = 'block';
-  
+
   cancel.addEventListener('click', function() {
     TURNS.endState();
     element.classList.add('hidden');
@@ -47,7 +47,12 @@ var BUYSCREEN = (function() {
     img.src = GFX[hero.sprite];
 
     var info = document.createElement('div');
-    info.innerHTML = hero.name + ', cost: <b>' + hero.cost + '</b>';
+    info.innerHTML = '<b style="font-size:15px;">' + hero.name + '</b>' +
+      '<br/>Cost: <b>' + hero.cost + '</b>' +
+      '<br/>Attack range: <b>' + (hero.attackRange - 1) + '</b>' +
+      '<br/>Attack power: <b>' + hero.attackPower + '</b>' +
+      '<br/>HP: <b>' + hero.hp + '</b>' +
+      '<br/>Special: <b>' + hero.special + '</b>';
 
     el.appendChild(img);
     el.appendChild(info);

@@ -14,9 +14,21 @@ var TURNS = (function() {
   var activeState = TURN_STATES.MOVEMENT;
 
   var defaultActions = {
-    moves: 3,
-    actions: 3
+    moves: 1,
+    actions: 1
   };
+
+  var bonusActions = {
+    '-1': {
+      moves: 0,
+      actions: 0
+    },
+    1: {
+      moves: 0,
+      actions: 0
+    }
+  };
+
 
   // OMG this is awful...
   var players = {
@@ -121,6 +133,9 @@ var TURNS = (function() {
       if (players[activePlayer].actions === 0) {
         this.endState();
       }
+    },
+    addAction: function(count) {
+      players[activePlayer].actions += count;
     },
 
     addHero: function(heroClass) {

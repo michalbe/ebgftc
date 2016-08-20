@@ -24,6 +24,8 @@ HEROES.Electrician = function() {
           projectile = null;
         });
       });
+    } else {
+      LOG.ua(this.name + ' has no one to attack');
     }
   };
 

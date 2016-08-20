@@ -3,10 +3,9 @@ HEROES.ConstructionWorker = function() {
 
   HEROES.BasicHero.call(this);
   this.sprite = 2;
-  this.name = 'Construction Worker';
-
+  this.name = 'Builder';
   this.cost = 1;
-  this.attackRange = 3;
+  this.attackRange = 2;
   this.attackPower = 1;
   this.hp = 1;
 
@@ -26,7 +25,8 @@ HEROES.ConstructionWorker = function() {
         });
       });
     } else {
-      cb();
+      LOG.ua(this.name + ' has no one to attack');
+      //cb();
     }
   };
   return this;

@@ -15,8 +15,9 @@ HEROES.BasicHero = function() {
   this.orientation = 1;
   this.cost = 1;
 
-  // is this the same as attackPower?
-  this.damage = 1;
+  this.attackPower = 0;
+  this.attackRange = 1;
+  this.special = 'None';
   this.hp = 2;
   this.maxHp = this.hp;
   this.rechargeTime = 2;
@@ -136,7 +137,6 @@ HEROES.BasicHero = function() {
   };
 
   this.handleClick = function() {
-    console.log(TURNS.getPlayer());
     var self = this;
     if (this.orientation !== TURNS.getPlayer()) {
       return;

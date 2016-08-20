@@ -65,12 +65,14 @@ button.button {
 
 .buy_screen .hero_card {
   display: inline-block;
-  margin: 5px;
+  margin: 15px;
   font-family: monospace;
   font-size: 10px;
   transition: background-color 0.2s;
   cursor: pointer;
   padding: 5px;
+  text-align: left;
+  vertical-align: top;
 }
 
 .buy_screen .hero_card:hover {
