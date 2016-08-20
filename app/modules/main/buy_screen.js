@@ -48,7 +48,7 @@ var BUYSCREEN = (function() {
 
     var info = document.createElement('div');
     info.innerHTML = '<b style="font-size:15px;">' + hero.name + '</b>' +
-      '<br/>Cost: <b>' + hero.cost + '</b>' +
+      (GAME.nohajs ? '' : '<br/>Cost: <b>' + hero.cost + '</b>') +
       '<br/>Recharge time: <b>' + hero.rechargeTime + '</b>' +
       '<br/>Attack range: <b>' + (hero.attackRange - 1) + '</b>' +
       '<br/>Attack power: <b>' + hero.attackPower + '</b>' +
@@ -60,7 +60,7 @@ var BUYSCREEN = (function() {
 
     el.onclick = (function(hero, heroClass) {
       return function() {
-        if (hero.cost > TURNS.getPlayersMoney()) {
+        if (hero.cost > TURNS.getPlayersMoney() && !GAME.nohajs) {
           alert('not enough money...');
           return;
         }
@@ -77,7 +77,7 @@ var BUYSCREEN = (function() {
     drawHeroes: drawHeroes,
     show: function() {
       var player = TURNS.getPlayer() > 0 ? 'Green' : 'Red';
-      money.innerHTML = player + ' player\'s account: ' + TURNS.getPlayersMoney() + '<br/> Turn NR: ' + TURNS.getTurn() + '<br/>';
+      money.innerHTML = 'Turn NR: ' + TURNS.getTurn() + '<br/>' + (GAME.nohajs ? '' : player + ' player\'s account: ' + TURNS.getPlayersMoney() )+ '<br/>' ;
       element.classList.remove('hidden');
     }
   };

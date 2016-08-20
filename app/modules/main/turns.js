@@ -14,7 +14,7 @@ var TURNS = (function() {
   var activeState = TURN_STATES.MOVEMENT;
 
   var defaultActions = {
-    moves: 1,
+    moves: Infinity,
     actions: 1
   };
 

@@ -4,11 +4,12 @@ var GAME = function() {
   $('body').append(BOARD.template);
   GAME.heroContainer = $('.board_container');
 
+  GAME.nohajs = true;
   GAME.units = {};
   GAME.units.greens = [];
   // hero players
 
-  var DefaultHero = HEROES.ITSupport;//ConstructionWorker;
+  var DefaultHero = HEROES.ConstructionWorker;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 2;
@@ -123,7 +124,7 @@ var GAME = function() {
     GAME.heroToAdd = null;
     document.body.classList.remove('placing_hero');
     UTILS.fillEmptySpots();
-    if (TURNS.getPlayersMoney() > 0) {
+    if (TURNS.getPlayersMoney() > 0 && !GAME.nohajs) {
       BUYSCREEN.show();
     } else {
       TURNS.endState();
