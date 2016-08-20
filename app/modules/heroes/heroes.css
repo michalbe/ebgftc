@@ -59,11 +59,11 @@
 
 .hero div.token {
   position: relative;
-  background-color: #28a828;
+  background-color: #333;
   width: 30px;
   height: 13px;
   text-align: center;
-  border: 2px solid #188918;
+  border: 2px solid #CCC;
   border-radius: 10px;
   color: white;
   display: none;
@@ -73,10 +73,9 @@
 
 .hero div.token.show {
   animation-name: show-token;
-  animation-duration: 1s;
+  animation-duration: 3s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
-  animation-timing-function: cubic-bezier(0.470, 0.000, 0.745, 0.715);
   display: block;
 }
 
@@ -86,7 +85,7 @@
     opacity: 1;
   }
   100% {
-    top: -20px;
+    top: -50px;
     opacity: 0;
   }
 }

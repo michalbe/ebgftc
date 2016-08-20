@@ -22,6 +22,7 @@ HEROES.ITSupport = function() {
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       this.moveTo(enemy.position.x, enemy.position.y, function() {
+        self.showToken('+1A');
         self.addAction(1);
         enemy.getWound(self.attackPower, function() {
           self.moveTo(tempX, self.position.y);
@@ -31,6 +32,7 @@ HEROES.ITSupport = function() {
         });
       });
     } else {
+      self.showToken('+2A');
       self.addAction(2);
       LOG.ua(this.name + ' has no one to attack');
       cb();
