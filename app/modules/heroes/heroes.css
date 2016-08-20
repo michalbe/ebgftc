@@ -1,4 +1,5 @@
-.hero {
+.hero,
+.projectile {
   position: absolute;
   background-size: cover;
 }
