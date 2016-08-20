@@ -60,6 +60,6 @@
     "nomen": true,
     "onevar": true,
     "passfail": false,
-    "predef": ["require", "define", "$", "_", "GAME", "ENGINE", "LOG", "HEROES", "BOARD", "BUYSCREEN", "UTILS", "GFX", "TURNS"]
+    "predef": ["require", "define", "$", "_", "GAME", "ENGINE", "LOG", "HEROES", "BOARD", "BUYSCREEN", "UTILS", "GFX", "TURNS", "PROJECTILES"]
 
 }
