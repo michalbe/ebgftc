@@ -41,12 +41,14 @@ HEROES.BasicHero = function() {
     this.currentRechargeCount++;
     if (this.isRecharging) {
       if (this.currentRechargeCount === this.rechargeTime) {
+        this.showToken('RE!');
         LOG.ua(this.name + ' is recharged!');
         this.isRecharging = false;
         this.element.removeClass('recharge');
         this.afterRecharge();
         return true;
       } else {
+        this.showToken(this.rechargeTime - this.currentRechargeCount + 'RE');
         LOG.ua(this.name + ' is recharging. ' + (this.rechargeTime - this.currentRechargeCount) + ' more turns.');
       }
 
@@ -95,9 +97,12 @@ HEROES.BasicHero = function() {
   };
 
   this.showToken = function(message) {
+    var self = this;
     this.token.removeClass('show');
     this.token.html(message);
-    this.token.addClass('show');
+    setTimeout(function(){
+      self.token.addClass('show');
+    }, 100);
   };
 
   this.teleportTo = function(x, y) {
