@@ -1,7 +1,7 @@
 /*jshint browser: true*/
 var PROJECTILES = {};
 
-HEROES.BasicProjectile = function() {
+PROJECTILES.BasicProjectile = function() {
   'use strict';
   this.width = 20;
   this.height = 20;
@@ -10,7 +10,7 @@ HEROES.BasicProjectile = function() {
   this.position = { x: 0, y: 0 };
 
   this.init = function(x, y) {
-    var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
+    var cell = $('#GameBoard td[data-cell="' + x + '-' + y +'"]');
     var cellOffset = cell.offset();
 
     this.element = $('<div class="projectile"></div>')
