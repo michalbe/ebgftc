@@ -20,7 +20,7 @@ HEROES.BasicHero = function() {
   this.special = 'None';
   this.hp = 2;
   this.maxHp = this.hp;
-  this.rechargeTime = 2;
+  this.rechargeTime = 1;
   this.isRecharging = false;
   this.alive = true;
 
@@ -29,18 +29,25 @@ HEROES.BasicHero = function() {
   };
 
   this.rechargeStart = function() {
+    this.currentRechargeCount = 0;
     this.isRecharging = true;
     this.element.addClass('recharge');
     TURNS.makeAction();
   };
 
   this.rechargeStop = function() {
+    this.currentRechargeCount++;
     if (this.isRecharging) {
-      LOG.ua(this.name + ' is recharged!');
-      this.isRecharging = false;
-      this.element.removeClass('recharge');
-      this.afterRecharge();
-      return true;
+      if (this.currentRechargeCount === this.rechargeTime) {
+        LOG.ua(this.name + ' is recharged!');
+        this.isRecharging = false;
+        this.element.removeClass('recharge');
+        this.afterRecharge();
+        return true;
+      } else {
+        LOG.ua(this.name + ' is recharging. ' + (this.rechargeTime - this.currentRechargeCount) + ' more turns.');
+      }
+
     }
 
     return false;

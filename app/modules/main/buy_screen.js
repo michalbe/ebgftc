@@ -49,6 +49,7 @@ var BUYSCREEN = (function() {
     var info = document.createElement('div');
     info.innerHTML = '<b style="font-size:15px;">' + hero.name + '</b>' +
       '<br/>Cost: <b>' + hero.cost + '</b>' +
+      '<br/>Recharge time: <b>' + hero.rechargeTime + '</b>' +
       '<br/>Attack range: <b>' + (hero.attackRange - 1) + '</b>' +
       '<br/>Attack power: <b>' + hero.attackPower + '</b>' +
       '<br/>HP: <b>' + hero.hp + '</b>' +
