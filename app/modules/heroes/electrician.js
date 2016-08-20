@@ -11,16 +11,13 @@ HEROES.Electrician = function() {
   this.hp = 2;
 
   this.attack = function(cb) {
-    var self = this;
-    var tempX = this.position.x;
     var affectedEnemies = UTILS.getUnitsHorizontalyInRange(this);
 
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       var projectile = new PROJECTILES.Bulb();
-      console.log(this.position);
       projectile.init(this.position.x, this.position.y);
-      projectile.render();
+      projectile.moveTo(enemy.position.x, enemy.position.y, cb);
       // this.moveTo(enemy.position.x, enemy.position.y, function() {
       //   enemy.getWound(self.attackPower, function() {
       //     self.moveTo(tempX, self.position.y);

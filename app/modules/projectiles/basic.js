@@ -10,6 +10,11 @@ PROJECTILES.BasicProjectile = function() {
   this.position = { x: 0, y: 0 };
 
   this.init = function(x, y) {
+    this.position = {
+      x: x,
+      y: y
+    };
+    
     var cell = $('#GameBoard td[data-cell="' + x + '-' + y +'"]');
     var cellOffset = cell.offset();
 
@@ -35,12 +40,7 @@ PROJECTILES.BasicProjectile = function() {
       if (typeof cb === 'function') {
         cb();
       }
-    })
-    .attr('title', 'x:' + this.position.x + ', y:' + this.position.y);
-    if (this.orientation < 0) {
-      this.element.addClass('flipped');
-    }
-
+    });
   };
 
   this.moveTo = function(x, y, cb) {
