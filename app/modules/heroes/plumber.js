@@ -9,7 +9,7 @@ HEROES.Plumber = function() {
   this.attackRange = 12;
   this.attackPower = 1;
   this.rechargeTime = 2;
-  this.hp = 1;
+  this.hp = 2;
 
   this.attack = function(cb) {
     var self = this;

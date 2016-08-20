@@ -24,6 +24,8 @@ HEROES.BasicHero = function() {
   this.isRecharging = false;
   this.alive = true;
 
+  this.token = '';
+
   this.attack = function(cb) {
     cb();
   };
@@ -67,7 +69,8 @@ HEROES.BasicHero = function() {
       .attr('title', 'x:' + this.position.x + ', y:', this.position.y);
 
     this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
-
+    this.token = $('<div class="token"></div>').appendTo(this.element);
+    this.token.html('ELO!');
     GAME.heroContainer.append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
   };
@@ -89,6 +92,12 @@ HEROES.BasicHero = function() {
       this.element.addClass('flipped');
     }
 
+  };
+
+  this.showToken = function(message) {
+    this.token.removeClass('show');
+    this.token.html(message);
+    this.token.addClass('show');
   };
 
   this.teleportTo = function(x, y) {
@@ -123,6 +132,7 @@ HEROES.BasicHero = function() {
     this.element.removeClass('wounded');
     UTILS.shake();
     this.element.addClass('wounded');
+    this.showToken('-' + power + 'HP');
     this.hp -= power;
     this.updateHpBar();
 

@@ -52,3 +52,41 @@
   transition: width 0.2s;
   transform: translateY(-5px);
 }
+
+.hero.flipped div.token {
+  transform: scaleX(-1);
+}
+
+.hero div.token {
+  position: relative;
+  background-color: #28a828;
+  width: 30px;
+  height: 13px;
+  text-align: center;
+  border: 2px solid #188918;
+  border-radius: 10px;
+  color: white;
+  display: none;
+  pointer-events: none;
+  font-size: 10px;
+}
+
+.hero div.token.show {
+  animation-name: show-token;
+  animation-duration: 1s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.470, 0.000, 0.745, 0.715);
+  display: block;
+}
+
+@keyframes show-token {
+  0% {
+    top: 0;
+    opacity: 1;
+  }
+  100% {
+    top: -20px;
+    opacity: 0;
+  }
+}
