@@ -6,18 +6,24 @@ HEROES.Electrician = function() {
   this.name = 'Electrician';
 
   this.cost = 1;
-  this.attackRange = 5;
+  this.attackRange = 4;
   this.attackPower = 1;
   this.hp = 2;
 
   this.attack = function(cb) {
+    var self = this;
     var affectedEnemies = UTILS.getUnitsHorizontalyInRange(this);
 
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       var projectile = new PROJECTILES.Bulb();
       projectile.init(this.position.x, this.position.y);
-      projectile.moveTo(enemy.position.x, enemy.position.y, cb);
+      projectile.moveTo(enemy.position.x, enemy.position.y, function(){
+        enemy.getWound(self.attackPower, cb());
+        projectile.remove(function() {
+          projectile = null;
+        });
+      });
       // this.moveTo(enemy.position.x, enemy.position.y, function() {
       //   enemy.getWound(self.attackPower, function() {
       //     self.moveTo(tempX, self.position.y);

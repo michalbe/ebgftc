@@ -14,7 +14,7 @@ PROJECTILES.BasicProjectile = function() {
       x: x,
       y: y
     };
-    
+
     var cell = $('#GameBoard td[data-cell="' + x + '-' + y +'"]');
     var cellOffset = cell.offset();
 
@@ -52,5 +52,9 @@ PROJECTILES.BasicProjectile = function() {
     this.render(cb);
   };
 
+  this.remove = function(cb) {
+    this.element.remove();
+    cb();
+  };
   return this;
 };

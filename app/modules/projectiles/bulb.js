@@ -14,32 +14,28 @@ PROJECTILES.Bulb = function() {
     x = cell.offset().left + (cell.width()/2) - (this.width/2);
     y = cell.offset().top + (cell.height()/2) - (this.height/2);
 
-    var startX = this.position.x;
     var startY = this.position.y;
-    var centerX = Math.abs(startX + x)/2;
-    var ind = 0;
+    var centerX = Math.abs(this.position.x + x)/2;
     var angle = 0;
-    var radius = Math.abs(startX - x)/2;
-    while(angle < Math.PI) {
+    var radius = Math.abs(this.position.x - x)/2;
+    while(angle <= Math.PI) {
       this.position = {
         x: centerX + (Math.cos(angle)*radius),
         y: startY - (Math.sin(angle)*radius)
       };
 
-      this.renderPixels();
+      this.renderPixels(angle, cb);
 
       angle += 0.1;
-      ind++;
     }
   };
 
-  this.renderPixels = function(cb) {
-    console.log(this.position);
+  this.renderPixels = function(angle, cb) {
     this.element.animate({
       top: this.position.y,
       left: this.position.x
     }, 10, function() {
-      if (typeof cb === 'function') {
+      if (typeof cb === 'function' && angle + 0.1 >= Math.PI) {
         cb();
       }
     });
