@@ -11,7 +11,7 @@ var GAME = function() {
   var DefaultHero = HEROES.Electrician;//HEROES.ConstructionWorker;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
-  var filledCols = 2;
+  var filledCols = 5;
   var startY = Math.floor((BOARD.rows-filledRows)/2);
   var hero;
   var y, x;
@@ -29,7 +29,7 @@ var GAME = function() {
   LOG.ge('Green units added');
 
   GAME.units.reds = [];
-  startX = ~~(BOARD.cols/2) - 2;
+  startX = ~~(BOARD.cols/2) - (filledCols);
   for (x = startX; x < startX+filledCols; x++) {
     for (y = startY; y < BOARD.rows - startY; y++) {
       hero = new DefaultHero();

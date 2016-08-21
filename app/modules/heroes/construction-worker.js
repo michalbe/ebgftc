@@ -6,7 +6,7 @@ HEROES.ConstructionWorker = function() {
   this.name = 'Construction Worker';
 
   this.cost = 1;
-  this.attackRange = 3;
+  this.attackRange = 6;
   this.attackPower = 1;
   this.hp = 1;
 
@@ -25,6 +25,8 @@ HEROES.ConstructionWorker = function() {
           }
         });
       });
+    } else {
+      cb();
     }
   };
   return this;
