@@ -21,7 +21,6 @@ PROJECTILES.Bulb = function() {
     var deltaAngle = 0.1 * this.orientation;
     var endAngle = this.orientation > 0 ? Math.PI : 0;
 
-    console.log(angle, deltaAngle, endAngle);
     while(this.orientation > 0 ? angle <= endAngle : angle > endAngle) {
       this.position = {
         x: centerX + (Math.cos(angle)*radius),
@@ -40,12 +39,10 @@ PROJECTILES.Bulb = function() {
       top: this.position.y,
       left: this.position.x
     }, 10, function() {
-      console.log(angle, deltaAngle, angle + deltaAngle, endAngle, angle + deltaAngle < endAngle);
       if (
         typeof cb === 'function' &&
         (self.orientation > 0 ? (angle + deltaAngle >= endAngle) : (angle + deltaAngle < endAngle))
       ) {
-        console.log('eloooo');
         cb();
       }
     });
