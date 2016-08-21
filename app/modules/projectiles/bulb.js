@@ -15,27 +15,37 @@ PROJECTILES.Bulb = function() {
     y = cell.offset().top + (cell.height()/2) - (this.height/2);
 
     var startY = this.position.y;
-    var centerX = Math.abs(this.position.x + x)/2;
-    var angle = 0;
+    var centerX = (this.position.x + x)/2;
+    var angle = this.orientation > 0 ? 0 : Math.PI;
     var radius = Math.abs(this.position.x - x)/2;
-    while(angle <= Math.PI) {
+    var deltaAngle = 0.1 * this.orientation;
+    var endAngle = this.orientation > 0 ? Math.PI : 0;
+
+    console.log(angle, deltaAngle, endAngle);
+    while(this.orientation > 0 ? angle <= endAngle : angle > endAngle) {
       this.position = {
         x: centerX + (Math.cos(angle)*radius),
         y: startY - (Math.sin(angle)*radius)
       };
 
-      this.renderPixels(angle, cb);
+      this.renderPixels(angle, cb, endAngle, deltaAngle);
 
-      angle += 0.1;
+      angle += deltaAngle;
     }
   };
 
-  this.renderPixels = function(angle, cb) {
+  this.renderPixels = function(angle, cb, endAngle, deltaAngle) {
+    var self = this;
     this.element.animate({
       top: this.position.y,
       left: this.position.x
     }, 10, function() {
-      if (typeof cb === 'function' && angle + 0.1 >= Math.PI) {
+      console.log(angle, deltaAngle, angle + deltaAngle, endAngle, angle + deltaAngle < endAngle);
+      if (
+        typeof cb === 'function' &&
+        (self.orientation > 0 ? (angle + deltaAngle >= endAngle) : (angle + deltaAngle < endAngle))
+      ) {
+        console.log('eloooo');
         cb();
       }
     });

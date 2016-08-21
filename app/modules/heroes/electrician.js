@@ -17,21 +17,13 @@ HEROES.Electrician = function() {
     if (affectedEnemies.length > 0) {
       var enemy = affectedEnemies[0];
       var projectile = new PROJECTILES.Bulb();
-      projectile.init(this.position.x, this.position.y);
-      projectile.moveTo(enemy.position.x, enemy.position.y, function(){
-        enemy.getWound(self.attackPower, cb());
+      projectile.init(this.position.x, this.position.y, this.orientation);
+      projectile.moveTo(enemy.position.x, enemy.position.y, function() {
+        enemy.getWound(self.attackPower, cb);
         projectile.remove(function() {
           projectile = null;
         });
       });
-      // this.moveTo(enemy.position.x, enemy.position.y, function() {
-      //   enemy.getWound(self.attackPower, function() {
-      //     self.moveTo(tempX, self.position.y);
-      //     if (typeof cb === 'function') {
-      //       cb();
-      //     }
-      //   });
-      // });
     }
   };
 
