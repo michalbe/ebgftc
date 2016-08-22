@@ -18,7 +18,7 @@ HEROES.BasicHero = function() {
   this.attackPower = 0;
   this.attackRange = 1;
   this.special = 'None';
-  this.hp = 2;
+  this.hp = 1;
   this.maxHp = this.hp;
   this.rechargeTime = 1;
   this.isRecharging = false;
@@ -145,6 +145,17 @@ HEROES.BasicHero = function() {
       this.die();
     }
 
+    if (typeof cb === 'function') {
+      cb();
+    }
+  };
+
+  this.addHp = function(hp, cb) {
+    this.hp += hp;
+    LOG.ua(this.name + ' gets +' + hp + ' HP.');
+    this.showToken('+' + hp + 'HP');
+    this.maxHp = Math.max(this.maxHp, this.hp);
+    this.updateHpBar();
     if (typeof cb === 'function') {
       cb();
     }

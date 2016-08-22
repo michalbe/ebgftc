@@ -8,7 +8,7 @@ HEROES.Electrician = function() {
   this.cost = 1;
   this.attackRange = 4;
   this.attackPower = 1;
-  this.hp = 2;
+  // this.hp = 1;
 
   this.attack = function(cb) {
     var self = this;

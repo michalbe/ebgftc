@@ -7,7 +7,7 @@ HEROES.ITSupport = function() {
   this.special = '<br/>+2 actions or <br/>+1 action on attack';
   this.attackRange = 2;
   this.attackPower = 1;
-  this.hp = 1;
+  // this.hp = 1;
   this.cost = 3;
 
   this.addAction = function(count) {
