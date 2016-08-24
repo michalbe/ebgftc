@@ -74,7 +74,7 @@ var TURNS = (function() {
       switch(activeState) {
         case TURN_STATES.BUY:
           LOG.ge('Buy phase ended, recharge phase starts.');
-          if (activePlayer > 0) {
+          if (activePlayer < 0) {
             BUYSCREEN.drawHeroes();
             turn++;
           }

@@ -34,7 +34,6 @@ HEROES.BasicHero = function() {
     this.currentRechargeCount = 0;
     this.isRecharging = true;
     this.element.addClass('recharge');
-    TURNS.makeAction();
   };
 
   this.rechargeStop = function() {
@@ -75,6 +74,8 @@ HEROES.BasicHero = function() {
     this.token.html('ELO!');
     GAME.heroContainer.append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
+    this.rechargeStart();
+    this.currentRechargeCount = this.rechargeTime - 2;
   };
 
   this.render = function(cb) {
@@ -176,7 +177,10 @@ HEROES.BasicHero = function() {
     }
     if (!self.isRecharging && (TURNS.isActionState() || TURNS.isMovementState())) {
       LOG.ua(this.name + ' attacks');
-      this.attack(_.bind(this.rechargeStart, this));
+      this.attack(function() {
+        self.rechargeStart();
+        TURNS.makeAction();
+      });
     }
   };
 
