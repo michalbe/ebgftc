@@ -4,7 +4,7 @@ HEROES.Paramedic = function() {
   HEROES.BasicHero.call(this);
   this.sprite = 1;
   this.name = 'Paramedic';
-  this.rechargeTime = 3;
+  this.rechargeTime = 1;
   this.cost = 3;
   this.special = '<br/>+1HP to the column';
 

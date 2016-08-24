@@ -130,6 +130,7 @@ var UTILS = {
   },
 
   fillEmptySpots: function() {
+    console.log('filluje!');
     this.fillHalfBoard(-1);
     this.fillHalfBoard(1);
   }

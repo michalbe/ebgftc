@@ -6,8 +6,9 @@ HEROES.Plumber = function() {
   this.name = 'Plumber';
 
   this.cost = 4;
-  this.attackRange = 12;
+  this.attackRange = 10;
   this.attackPower = 1;
+  this.special = '<br/>Reverse enemy\'s row order';
   // this.rechargeTime = 3;
   // this.hp = 1;
 
@@ -15,20 +16,32 @@ HEROES.Plumber = function() {
     var self = this;
     var tempX = this.position.x;
     var affectedEnemies = UTILS.getUnitsHorizontalyInRange(this);
-    console.log(affectedEnemies);
+    var positions = affectedEnemies.map(function(a) {
+      return a.position;
+    });
+    positions.reverse();
     if (affectedEnemies.length > 0) {
-      var moveTo = this.orientation > 0 ? 0 : BOARD.cols-1;
-      this.moveTo(moveTo, self.position.y, function() {
-          self.moveTo(tempX, self.position.y);
-          affectedEnemies.forEach(function(enemy) {
-            enemy.getWound(self.attackPower);
-          });
-        // enemy.getWound(self.attackPower, function() {
-          if (typeof cb === 'function') {
-            cb();
-          }
-        // });
+      // affectedEnemies.reverse();
+      this.moveTo(affectedEnemies[0].position.x, affectedEnemies[0].position.y, function() {
+        affectedEnemies.forEach(function(enemy, index) {
+          enemy.moveTo(positions[index].x, enemy.position.y, (function(index) {
+            if (index === 0) {
+              self.moveTo(tempX, self.position.y);
+            }
+            if (index === affectedEnemies.length - 1) {
+              setTimeout(function() {
+                UTILS.fillEmptySpots();
+              }, 300);
+              if (typeof cb === 'function') {
+                cb();
+              }
+            }
+          })(index));
+        });
       });
+    } else {
+      LOG.ua(this.name + ' has no one to attack');
+      //cb();
     }
   };
 
