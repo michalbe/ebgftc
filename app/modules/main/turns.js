@@ -11,7 +11,7 @@ var TURNS = (function() {
 
   // var isFirstTurn = true;
   var activePlayer = 1;
-  var activeState = TURN_STATES.MOVEMENT;
+  var activeState = TURN_STATES.BUY;
 
   var defaultActions = {
     moves: Infinity,
@@ -45,7 +45,7 @@ var TURNS = (function() {
       players[activePlayer][i] = defaultActions[i];
     }
 
-    output += 'and ' + players[activePlayer].money + ' money to spend';
+    // output += 'and ' + players[activePlayer].money + ' money to spend';
 
     document.body.classList = (activePlayer > 0 ? 'green' : 'red') + '-turn';
     LOG.ge(output);
@@ -55,6 +55,7 @@ var TURNS = (function() {
     start: function() {
       BUYSCREEN.drawHeroes();
       playersTurn();
+      BUYSCREEN.show();
     },
     getTurn: function() {
       return turn;
@@ -69,13 +70,18 @@ var TURNS = (function() {
       return activeState === TURN_STATES.RECHARGE;
     },
     endState: function() {
-      console.log('END STATE', activeState);
+
       switch(activeState) {
-        case TURN_STATES.RECHARGE:
+        case TURN_STATES.BUY:
+          LOG.ge('Buy phase ended, recharge phase starts.');
           if (activePlayer > 0) {
             BUYSCREEN.drawHeroes();
             turn++;
           }
+          activeState = TURN_STATES.RECHARGE;
+          TURNS.endState();
+          break;
+        case TURN_STATES.RECHARGE:
           // this can be moved from here in the future probably...
           UTILS.rechargeAll();
           TURNS.earn(turn);
@@ -87,17 +93,12 @@ var TURNS = (function() {
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          LOG.ge('Action phase ended, buy phase.');
+          LOG.ge('Action phase ended, end turn.');
           activeState = TURN_STATES.BUY;
-          BUYSCREEN.show();
-          break;
-        case TURN_STATES.BUY:
-          LOG.ge('Buy phase ended, next turn.');
           activePlayer = activePlayer * -1;
           playersTurn();
           LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
-          activeState = TURN_STATES.RECHARGE;
-          TURNS.endState();
+          BUYSCREEN.show();
           break;
       }
 
@@ -116,6 +117,7 @@ var TURNS = (function() {
     earn: function(amount) {
       players[activePlayer].money = players[activePlayer].money + amount;
     },
+
     makeMove: function() {
       players[activePlayer].moves--;
       LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' moved. ' + players[activePlayer].moves + ' left');

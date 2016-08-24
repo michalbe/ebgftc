@@ -35,7 +35,7 @@ var BUYSCREEN = (function() {
       createHeroCard(hero);
       heroes.push(hero);
     }
-    content.appendChild(cancel);
+    // content.appendChild(cancel);
     console.log(heroes);
   };
 
