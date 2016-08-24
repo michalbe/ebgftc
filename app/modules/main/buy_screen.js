@@ -77,7 +77,7 @@ var BUYSCREEN = (function() {
     drawHeroes: drawHeroes,
     show: function() {
       var player = TURNS.getPlayer() > 0 ? 'Green' : 'Red';
-      money.innerHTML = 'Turn NR: ' + TURNS.getTurn() + '<br/>' + (GAME.nohajs ? '' : player + ' player\'s account: ' + TURNS.getPlayersMoney() )+ '<br/>' ;
+      money.innerHTML = player + '\'s turn nr ' + TURNS.getTurn() + '<br/>' + (GAME.nohajs ? '' : player + ' player\'s account: ' + TURNS.getPlayersMoney() )+ '<br/>' ;
       element.classList.remove('hidden');
     }
   };

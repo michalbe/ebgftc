@@ -3,8 +3,8 @@ var HEROES = {};
 
 HEROES.BasicHero = function() {
   'use strict';
-  this.width = 36;//48;//84;
-  this.height = 36;//48; //84;
+  this.width = 38;//48;//84;
+  this.height = 38;//42;//48; //84;
   this.sprite = 0;
   this.name = 'Basic Hero';
 
@@ -69,7 +69,7 @@ HEROES.BasicHero = function() {
       })
       .attr('title', 'x:' + this.position.x + ', y:', this.position.y);
 
-    this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
+    // this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
     this.token = $('<div class="token"></div>').appendTo(this.element);
     this.token.html('ELO!');
     GAME.heroContainer.append(this.element);
@@ -81,7 +81,18 @@ HEROES.BasicHero = function() {
   this.render = function(cb) {
     // var self = this;
     var cell = $('#GameBoard td[data-cell="' + this.position.x + '-' + this.position.y +'"]');
-    var cellOffset = cell.offset();
+    var cellOffset;
+    if (cell.length === 0) {
+      cell = $('#GameBoard td[data-cell="' + (this.orientation > 0 ? this.position.x-1 : this.position.x+1) + '-' + this.position.y +'"]');
+      console.log(cell);
+      var diff = this.orientation > 0 ? cell.width() : cell.width()*-1;
+      cellOffset = {
+        top: cell.offset().top,
+        left: cell.offset().left + diff
+      };
+    } else {
+      cellOffset = cell.offset();
+    }
     this.element.animate({
       top: cellOffset.top + ((cell.height() - this.height)/2),
       left: cellOffset.left + ((cell.width() - this.width)/2),
@@ -127,11 +138,11 @@ HEROES.BasicHero = function() {
     this.render(cb);
   };
 
-  this.updateHpBar = function() {
-    this.hpBar.css({
-      width: ((this.hp/this.maxHp)*100) + '%'
-    });
-  };
+  // this.updateHpBar = function() {
+  //   this.hpBar.css({
+  //     width: ((this.hp/this.maxHp)*100) + '%'
+  //   });
+  // };
 
   this.getWound = function(power, cb) {
     LOG.ua(this.name + ' gets ' + power + ' wound(s)');
@@ -140,7 +151,7 @@ HEROES.BasicHero = function() {
     this.element.addClass('wounded');
     this.showToken('-' + power + 'HP');
     this.hp -= power;
-    this.updateHpBar();
+    // this.updateHpBar();
 
     if (this.hp < 1) {
       this.die();
@@ -156,18 +167,26 @@ HEROES.BasicHero = function() {
     LOG.ua(this.name + ' gets +' + hp + ' HP.');
     this.showToken('+' + hp + 'HP');
     this.maxHp = Math.max(this.maxHp, this.hp);
-    this.updateHpBar();
+    // this.updateHpBar();
     if (typeof cb === 'function') {
       cb();
     }
   };
 
   this.die = function() {
-    this.alive = false;
-    LOG.ua(this.name + ' died!');
-    this.element.fadeOut(function() {
+    // this.alive = false;
+    LOG.ua(this.name + ' was sent to back...');
+    // this.element.fadeOut(function() {
+    //
+    //   UTILS.fillEmptySpots();
+    // });
+    var self = this;
+    this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function(){
+      self.rechargeStart();
+      self.currentRechargeCount = self.rechargeTime - 2;
       UTILS.fillEmptySpots();
     });
+
   };
 
   this.handleClick = function() {

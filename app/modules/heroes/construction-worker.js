@@ -7,7 +7,7 @@ HEROES.ConstructionWorker = function() {
   this.cost = 1;
   this.attackRange = 2;
   this.attackPower = 1;
-  this.hp = 1;
+  // this.hp = 1;
 
   this.attack = function(cb) {
     var self = this;
