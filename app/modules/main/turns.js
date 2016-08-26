@@ -93,12 +93,14 @@ var TURNS = (function() {
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          LOG.ge('Action phase ended, end turn.');
-          activeState = TURN_STATES.BUY;
-          activePlayer = activePlayer * -1;
-          playersTurn();
-          LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
-          BUYSCREEN.show();
+          setTimeout(function(){
+            LOG.ge('Action phase ended, end turn.');
+            activeState = TURN_STATES.BUY;
+            activePlayer = activePlayer * -1;
+            playersTurn();
+            LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
+            BUYSCREEN.show();
+          }, 300);
           break;
       }
 
