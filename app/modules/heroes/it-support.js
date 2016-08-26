@@ -2,7 +2,7 @@ HEROES.ITSupport = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 0;
+  this.sprite = gfxMAP.it;
   this.name = 'IT Support';
   this.special = '<br/>+2 actions or <br/>+1 action on attack';
   this.attackRange = 2;

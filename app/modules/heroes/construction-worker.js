@@ -2,7 +2,7 @@ HEROES.ConstructionWorker = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 2;
+  this.sprite = gfxMAP.construction;
   this.name = 'Builder';
   this.cost = 1;
   this.attackRange = 2;

@@ -2,7 +2,7 @@ HEROES.Plumber = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 5;
+  this.sprite = gfxMAP.plumber;
   this.name = 'Plumber';
 
   this.cost = 4;
@@ -23,6 +23,7 @@ HEROES.Plumber = function() {
     if (affectedEnemies.length > 0) {
       // affectedEnemies.reverse();
       this.moveTo(affectedEnemies[0].position.x, affectedEnemies[0].position.y, function() {
+        UTILS.shake();
         affectedEnemies.forEach(function(enemy, index) {
           enemy.moveTo(positions[index].x, enemy.position.y, (function(index) {
             if (index === 0) {

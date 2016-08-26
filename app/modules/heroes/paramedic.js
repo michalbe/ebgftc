@@ -2,7 +2,7 @@ HEROES.Paramedic = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 1;
+  this.sprite = gfxMAP.medic;
   this.name = 'Paramedic';
   this.rechargeTime = 1;
   this.cost = 3;

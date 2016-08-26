@@ -2,7 +2,7 @@ HEROES.Psychologist = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 4;
+  this.sprite = gfxMAP.psyho;
   this.name = 'Psychologist';
 
   this.cost = 5;

@@ -2,7 +2,7 @@ HEROES.Electrician = function() {
   'use strict';
 
   HEROES.BasicHero.call(this);
-  this.sprite = 3;
+  this.sprite = gfxMAP.electrician;
   this.name = 'Electrician';
 
   this.cost = 1;
