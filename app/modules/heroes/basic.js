@@ -1,5 +1,19 @@
 /*jshint browser: true*/
+
 var HEROES = {};
+var gfxMAP = {
+  it: 0,
+  construction: 1,
+  plumber: 2,
+  electrician: 3,
+  medic: 4,
+  coach: 5,
+  smith: 6,
+  watchmaker: 7,
+  psyho: 8,
+  priest: 9,
+  tailor: 10
+};
 
 HEROES.BasicHero = function() {
   'use strict';
@@ -181,7 +195,9 @@ HEROES.BasicHero = function() {
     //   UTILS.fillEmptySpots();
     // });
     var self = this;
-    this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function(){
+    this.hp = this.maxHp;
+    
+    this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
       UTILS.fillEmptySpots();
