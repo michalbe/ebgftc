@@ -3,16 +3,16 @@
 var HEROES = {};
 var gfxMAP = {
   it: 0,
-  construction: 1,
+  construction: 3,
   plumber: 2,
-  electrician: 3,
+  electrician: 1,
   medic: 4,
   coach: 5,
-  smith: 6,
-  watchmaker: 7,
-  psyho: 8,
-  priest: 9,
-  tailor: 10
+  smith: 8,
+  watchmaker: 10,
+  psyho: 6,
+  priest: 7,
+  tailor: 9
 };
 
 HEROES.BasicHero = function() {
