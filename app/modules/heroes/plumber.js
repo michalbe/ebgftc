@@ -8,7 +8,7 @@ HEROES.Plumber = function() {
   this.cost = 4;
   this.attackRange = 10;
   this.attackPower = 1;
-  this.special = '<br/>Reverse enemy\'s row order';
+  this.special = '<br/>Reverse enemy\'s<br/>row order';
   // this.rechargeTime = 3;
   // this.hp = 1;
 
