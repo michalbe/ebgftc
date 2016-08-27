@@ -133,5 +133,23 @@ var UTILS = {
     console.log('filluje!');
     this.fillHalfBoard(-1);
     this.fillHalfBoard(1);
+  },
+
+  chooseUnits: function(heroes, cb) {
+    UTILS.isChoosen = true;
+    heroes.forEach(function(hero) {
+      hero.element.addClass('highlight');
+      hero.element.on('click', function heroAction() {
+          console.log('hue hue');
+          heroes.forEach(function(hero) {
+          hero.element.removeClass('highlight');
+          // this is bullshit and should be fixed somehow...
+          hero.element.off();
+          hero.attachEvents();
+        });
+        UTILS.isChoosen = false;
+        cb(hero);
+      });
+    });
   }
 };
