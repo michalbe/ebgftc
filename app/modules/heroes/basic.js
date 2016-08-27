@@ -38,10 +38,23 @@ HEROES.BasicHero = function() {
   this.isRecharging = false;
   this.alive = true;
 
+  this.vp = 0;
   this.token = '';
 
   this.attack = function(cb) {
     cb();
+  };
+
+  this.changeVp = function(count) {
+    count = count || 1;
+    this.vp += count;
+    this.showToken((count > 0 ? '+' : '') + count + 'VP');
+    this.vpToken.html(this.vp);
+    if (this.vp === 0) {
+      this.vpToken.removeClass('show');
+    } else {
+      this.vpToken.addClass('show');
+    }
   };
 
   this.rechargeStart = function() {
@@ -85,7 +98,8 @@ HEROES.BasicHero = function() {
 
     // this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
     this.token = $('<div class="token"></div>').appendTo(this.element);
-    this.token.html('ELO!');
+    this.vpToken = $('<div class="vp"></div>').appendTo(this.element);
+
     GAME.heroContainer.append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
     this.rechargeStart();
@@ -98,7 +112,6 @@ HEROES.BasicHero = function() {
     var cellOffset;
     if (cell.length === 0) {
       cell = $('#GameBoard td[data-cell="' + (this.orientation > 0 ? this.position.x-1 : this.position.x+1) + '-' + this.position.y +'"]');
-      console.log(cell);
       var diff = this.orientation > 0 ? cell.width() : cell.width()*-1;
       cellOffset = {
         top: cell.offset().top,
@@ -158,7 +171,8 @@ HEROES.BasicHero = function() {
   //   });
   // };
 
-  this.getWound = function(power, cb) {
+  this.getWound = function(attacker, cb) {
+    var power = attacker.attackPower;
     LOG.ua(this.name + ' gets ' + power + ' wound(s)');
     this.element.removeClass('wounded');
     UTILS.shake();
@@ -169,6 +183,11 @@ HEROES.BasicHero = function() {
 
     if (this.hp < 1) {
       this.die();
+      console.log(attacker);
+      attacker.changeVp(1);
+      if (this.vp > 0) {
+        this.changeVp(-1);
+      }
     }
 
     if (typeof cb === 'function') {
@@ -196,13 +215,12 @@ HEROES.BasicHero = function() {
     // });
     var self = this;
     this.hp = this.maxHp;
-    
+
     this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
       UTILS.fillEmptySpots();
     });
-
   };
 
   this.handleClick = function() {
