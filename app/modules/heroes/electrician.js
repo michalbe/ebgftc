@@ -19,7 +19,7 @@ HEROES.Electrician = function() {
       var projectile = new PROJECTILES.Bulb();
       projectile.init(this.position.x, this.position.y, this.orientation);
       projectile.moveTo(enemy.position.x, enemy.position.y, function() {
-        enemy.getWound(self.attackPower, cb);
+        enemy.getWound(self, cb);
         projectile.remove(function() {
           projectile = null;
         });
