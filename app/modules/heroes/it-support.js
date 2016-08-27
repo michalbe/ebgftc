@@ -24,7 +24,7 @@ HEROES.ITSupport = function() {
       this.moveTo(enemy.position.x, enemy.position.y, function() {
         self.showToken('+1A');
         self.addAction(1);
-        enemy.getWound(self.attackPower, function() {
+        enemy.getWound(self, function() {
           self.moveTo(tempX, self.position.y);
           if (typeof cb === 'function') {
             cb();
