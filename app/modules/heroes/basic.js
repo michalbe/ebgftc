@@ -46,6 +46,10 @@ HEROES.BasicHero = function() {
   };
 
   this.changeVp = function(count) {
+    if (count !== 0) {
+      var action = (count > 0 ? 'gaines' : 'looses');
+      LOG.ua(this.name + ' ' + action + ' ' + Math.abs(count) + 'VP');
+    }
     this.vp += count;
     this.showToken((count > 0 ? '+' : '') + count + 'VP');
     this.vpToken.html(this.vp);
@@ -94,7 +98,7 @@ HEROES.BasicHero = function() {
         backgroundImage: 'url(' + GFX[this.sprite] + ')'
       })
       .attr('title', 'x:' + this.position.x + ', y:', this.position.y);
-
+    this.attachEvents();
     // this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
     this.token = $('<div class="token"></div>').appendTo(this.element);
     this.vpToken = $('<div class="vp"></div>').appendTo(this.element);
@@ -102,9 +106,12 @@ HEROES.BasicHero = function() {
       this.changeVp(0);
     }
     GAME.heroContainer.append(this.element);
-    this.element.on('click', _.bind(this.handleClick, this));
     this.rechargeStart();
     this.currentRechargeCount = this.rechargeTime - 2;
+  };
+
+  this.attachEvents = function() {
+    this.element.on('click', _.bind(this.handleClick, this));
   };
 
   this.render = function(cb) {
@@ -184,7 +191,6 @@ HEROES.BasicHero = function() {
 
     if (this.hp < 1) {
       this.die();
-      console.log(attacker);
       attacker.changeVp(1);
       if (this.vp > 0) {
         this.changeVp(-1);
@@ -221,14 +227,20 @@ HEROES.BasicHero = function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
       UTILS.fillEmptySpots();
+      if (self.priested && self.vp < 1) {
+        var vp = self.vp*-2;
+        self.changeVp(vp);
+        self.priested = false;
+      }
     });
   };
 
   this.handleClick = function() {
     var self = this;
-    if (this.orientation !== TURNS.getPlayer()) {
+    if (this.orientation !== TURNS.getPlayer() || UTILS.isChoosen) {
       return;
     }
+
     if (!self.isRecharging && (TURNS.isActionState() || TURNS.isMovementState())) {
       LOG.ua(this.name + ' attacks');
       this.attack(function() {
