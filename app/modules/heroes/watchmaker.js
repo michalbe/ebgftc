@@ -1,9 +1,16 @@
 HEROES.Watchmaker = function() {
   'use strict';
 
-  HEROES.BasicHero.call(this);
+  HEROES.ConstructionWorker.call(this);
   this.sprite = gfxMAP.watchmaker;
   this.name = 'Watchmaker';
+  this.attackRange = 3;
+  this.special = '<br/>No initial recharge';
+  var basicInit = this.init;
+  this.init = function() {
+    basicInit.call(this);
+    this.currentRechargeCount = this.rechargeTime -1;
+  };
 
   return this;
 };
