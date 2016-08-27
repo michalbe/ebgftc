@@ -46,7 +46,6 @@ HEROES.BasicHero = function() {
   };
 
   this.changeVp = function(count) {
-    count = count || 1;
     this.vp += count;
     this.showToken((count > 0 ? '+' : '') + count + 'VP');
     this.vpToken.html(this.vp);
@@ -99,7 +98,9 @@ HEROES.BasicHero = function() {
     // this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
     this.token = $('<div class="token"></div>').appendTo(this.element);
     this.vpToken = $('<div class="vp"></div>').appendTo(this.element);
-
+    if (this.vp > 0) {
+      this.changeVp(0);
+    }
     GAME.heroContainer.append(this.element);
     this.element.on('click', _.bind(this.handleClick, this));
     this.rechargeStart();
