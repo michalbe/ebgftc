@@ -4,6 +4,8 @@ HEROES.LifeCoach = function() {
   HEROES.BasicHero.call(this);
   this.sprite = gfxMAP.coach;
   this.name = 'Life Coach';
+  this.vp = 3;
+  this.special = '<br/>Starts with 3VP';
 
   return this;
 };
