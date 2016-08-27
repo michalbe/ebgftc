@@ -2,6 +2,7 @@
 .projectile {
   position: absolute;
   background-size: cover;
+  transition: transform 0.2s;
 }
 
 .hero.flipped {
@@ -98,6 +99,14 @@
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
   display: block;
+}
+
+.hero.flipped.highlight {
+  transform: scale(-1.4, 1.4);
+}
+
+.hero.highlight {
+  transform: scale(1.4, 1.4);
 }
 
 @keyframes show-token {
