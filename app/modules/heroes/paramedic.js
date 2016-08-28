@@ -4,20 +4,17 @@ HEROES.Paramedic = function() {
   HEROES.BasicHero.call(this);
   this.sprite = gfxMAP.medic;
   this.name = 'Paramedic';
-  this.rechargeTime = 1;
-  this.cost = 3;
-  this.special = '<br/>+1HP to the column';
+  this.special = '<br/>Activates friendly unit<br/>from the same column';
 
   this.attack = function(cb) {
-    var self = this;
-    var tempX = this.position.x;
-    var units = UTILS.getUnitsVertically(this.position.x);
+    var affectedUnits = UTILS.getUnitsVertically(this.position.x);
 
-    units.forEach(function(unit) {
-      unit.addHp(1);
+
+    UTILS.chooseUnits(affectedUnits, function(unit) {
+      unit.currentRechargeCount = unit.rechargeTime-1;
+      unit.rechargeStop();
+      cb();
     });
-
-    cb();
   };
 
   return this;
