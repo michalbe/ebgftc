@@ -2,7 +2,7 @@ PROJECTILES.Bulb = function() {
   'use strict';
 
   PROJECTILES.BasicProjectile.call(this);
-  this.sprite = 5;
+  this.sprite = gfxMAP.bulb;
 
   this.moveTo = function(x, y, cb) {
     this.position = {
@@ -38,7 +38,7 @@ PROJECTILES.Bulb = function() {
     this.element.animate({
       top: this.position.y,
       left: this.position.x
-    }, 10, function() {
+    }, 200, function() {
       if (
         typeof cb === 'function' &&
         (self.orientation > 0 ? (angle + deltaAngle >= endAngle) : (angle + deltaAngle < endAngle))
