@@ -4,6 +4,7 @@ HEROES.Priest = function() {
   HEROES.BasicHero.call(this);
   this.sprite = gfxMAP.priest;
   this.name = 'Priest';
+  this.special = '<br/>Negate VP of an<br/>enemy hero in the<br/>same row';
 
   this.attack = function(cb) {
     var self = this;

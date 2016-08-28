@@ -235,6 +235,11 @@ HEROES.BasicHero = function() {
     });
   };
 
+  this.trash = function() {
+    this.element.remove();
+    this.alive = false;
+  };
+
   this.handleClick = function() {
     var self = this;
     if (this.orientation !== TURNS.getPlayer() || UTILS.isChoosen) {

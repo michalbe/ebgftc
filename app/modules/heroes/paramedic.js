@@ -4,7 +4,7 @@ HEROES.Paramedic = function() {
   HEROES.BasicHero.call(this);
   this.sprite = gfxMAP.medic;
   this.name = 'Paramedic';
-  this.special = '<br/>Activates friendly unit<br/>from the same column';
+  this.special = '<br/>Activates friendly hero<br/>from the same column';
 
   this.attack = function(cb) {
     var affectedUnits = UTILS.getUnitsVertically(this.position.x);

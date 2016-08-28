@@ -4,6 +4,7 @@ HEROES.Psychologist = function() {
   HEROES.BasicHero.call(this);
   this.sprite = gfxMAP.psyho;
   this.name = 'Psychologist';
+  this.special = '<br/>Deactivate enemy\'s<br/>hero in the same row';
 
   this.attack = function(cb) {
     var self = this;
