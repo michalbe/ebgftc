@@ -14,18 +14,21 @@ HEROES.Handyman = function() {
       return unit.orientation === self.orientation && unit !== self && !unit.isRecharging;
     });
 
-    UTILS.chooseUnits(affectedUnits, function(unit) {
-      TURNS.addAction(1);
-      unit.attack(function() {
-        setTimeout(function() {
-          unit.attack(function(){
-            unit.rechargeStart();
-            TURNS.makeAction();
-          });
-        }, 400);
+    if (affectedUnits.length > 0) {
+      UTILS.chooseUnits(affectedUnits, function(unit) {
+        // TURNS.addAction(1);
+
+        SYSTEM.asyncForEach([unit.attack, unit.attack], function(attack, callback) {
+          console.log('cb', cb);
+          attack.bind(unit)(callback);
+        }, function() {
+          unit.rechargeStart();
+          cb();
+        });
       });
-      cb();
-    });
+    } else {
+      LOG.ua(this.name + ' has no units to choose!');
+    }
   };
 
   return this;

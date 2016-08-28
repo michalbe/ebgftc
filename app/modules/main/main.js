@@ -9,7 +9,7 @@ var GAME = function() {
   GAME.units.greens = [];
   // hero players
 
-  var DefaultHero = HEROES.Electrician;
+  var DefaultHero = HEROES.Handyman;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 3;//0;//2;
