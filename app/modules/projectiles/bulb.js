@@ -38,7 +38,7 @@ PROJECTILES.Bulb = function() {
     this.element.animate({
       top: this.position.y,
       left: this.position.x
-    }, 200, function() {
+    }, 10, function() {
       if (
         typeof cb === 'function' &&
         (self.orientation > 0 ? (angle + deltaAngle >= endAngle) : (angle + deltaAngle < endAngle))
