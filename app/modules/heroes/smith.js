@@ -7,6 +7,9 @@ HEROES.Smith = function() {
   this.name = 'Smith';
   this.hp = 2;
 
+  this.attack = function() {
+    LOG.ua(this.name + ' cannot attack...');
+  };
   return this;
 };
 
