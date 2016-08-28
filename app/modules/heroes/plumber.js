@@ -5,7 +5,6 @@ HEROES.Plumber = function() {
   this.sprite = gfxMAP.plumber;
   this.name = 'Plumber';
 
-  this.cost = 4;
   this.attackRange = 10;
   this.attackPower = 1;
   this.special = '<br/>Reverse enemy\'s<br/>row order';
