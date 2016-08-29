@@ -23,7 +23,7 @@ var UTILS = {
     LOG.ge(recharged + ' units recharged');
   },
 
-  moveRow: function(killedEntity) {
+  moveRow: function(killedEntity, cb) {
     var orientation = killedEntity.orientation;
     var emptyPosition = killedEntity.position;
     var set = orientation < 0 ? GAME.units.reds : GAME.units.greens;
@@ -31,7 +31,7 @@ var UTILS = {
     // those should be removed from the original sets (enemies/units);
     // set = _.without(set, killedEntity);
 
-    _.each(set, function(unit) {
+    SYSTEM.asyncForEach(set, function(unit, next) {
       if (
         unit.position.y === emptyPosition.y &&
         (
@@ -40,9 +40,13 @@ var UTILS = {
         )
       ) {
         unit.moveTo(
-          parseInt(unit.position.x, 10) - orientation, unit.position.y);
+          parseInt(unit.position.x, 10) - orientation, unit.position.y,
+          next
+        );
+      } else {
+        next();
       }
-    });
+    }, cb);
   },
 
   getUnitsHorizontalyInRange: function(hero) {
@@ -110,29 +114,37 @@ var UTILS = {
     });
   },
 
-  fillHalfBoard: function(orientation) {
+  fillHalfBoard: function(orientation, cb) {
     var unit;
     var start = orientation > 0 ? BOARD.cols-1 : 0;
     var end = Math.floor(BOARD.cols/2);
     var inc = orientation * -1;
-
+    var allCells = [];
     for (var x = start; orientation > 0 ? x > end : x < end; x += inc) {
       for (var y=0; y<BOARD.rows; y++) {
-        unit = this.getUnitByCell(x, y);
-        if (!unit) {
-          this.moveRow({
-            orientation: orientation,
-            position: {x:x, y:y}
-          });
-        }
+        allCells.push({x:x, y:y});
       }
     }
+
+    SYSTEM.asyncForEach(allCells, function(cell, next) {
+      console.log(orientation, cell);
+      unit = this.getUnitByCell(cell.x, cell.y);
+      if (!unit) {
+        this.moveRow({
+          orientation: orientation,
+          position: {x: cell.x, y: cell.y}
+        }, next);
+      } else {
+        next();
+      }
+    }.bind(this), cb);
   },
 
-  fillEmptySpots: function() {
-    console.log('filluje!');
-    this.fillHalfBoard(-1);
-    this.fillHalfBoard(1);
+  fillEmptySpots: function(cb) {
+    if (typeof cb !== 'function') {
+      cb = function(){};
+    }
+    SYSTEM.asyncForEach([-1], this.fillHalfBoard.bind(this), cb);
   },
 
   chooseUnits: function(heroes, cb) {

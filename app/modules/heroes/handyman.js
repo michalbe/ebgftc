@@ -11,16 +11,15 @@ HEROES.Handyman = function() {
     var affectedUnits = UTILS.getUnitsHorizontaly(this.position.y);
 
     affectedUnits = affectedUnits.filter(function(unit) {
-      return unit.orientation === self.orientation && unit !== self && !unit.isRecharging;
+      return unit.orientation === self.orientation && unit.name !== self.name && !unit.isRecharging;
     });
 
     if (affectedUnits.length > 0) {
       UTILS.chooseUnits(affectedUnits, function(unit) {
         // TURNS.addAction(1);
 
-        SYSTEM.asyncForEach([unit.attack, unit.attack], function(attack, callback) {
-          console.log('cb', cb);
-          attack.bind(unit)(callback);
+        SYSTEM.asyncForEach([unit.attack, unit.attack], function(attack, next) {
+          attack.bind(unit)(next);
         }, function() {
           unit.rechargeStart();
           cb();
