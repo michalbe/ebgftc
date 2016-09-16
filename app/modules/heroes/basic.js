@@ -143,7 +143,7 @@ HEROES.BasicHero = function() {
     this.element.animate({
       top: cellOffset.top + ((cell.height() - this.height)/2),
       left: cellOffset.left + ((cell.width() - this.width)/2),
-    }, function() {
+    }, 200, function() {
       if (typeof cb === 'function') {
         cb();
       }
@@ -231,7 +231,7 @@ HEROES.BasicHero = function() {
     this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
-      UTILS.fillHalfBoard(self.orientation);
+      UTILS.fillHalfBoard(self.orientation, cb);
       if (self.priested && self.vp < 1) {
         var vp = self.vp*-2;
         self.changeVp(vp);

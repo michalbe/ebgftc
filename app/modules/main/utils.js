@@ -13,7 +13,6 @@ var UTILS = {
     var recharged = 0;
     var set = TURNS.getPlayer() < 0 ? GAME.units.reds : GAME.units.greens;
 
-    console.log('RECZARDŻ', TURNS.getPlayer());
     set.forEach(function(unit) {
       if (unit.rechargeStop()) {
         recharged++;
@@ -67,7 +66,7 @@ var UTILS = {
     return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === parseInt(row, 10);
     }).sort(function(a, b) {
-      return (b.position.y - a.position.y) * a.orientation;
+      return (b.position.x - a.position.x) * a.orientation;
     });
   },
 
