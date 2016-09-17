@@ -43,9 +43,9 @@
     "sub": false,
     "supernew": false,
     "validthis": false,
-    "browser": false,
+    "browser": true,
     "couch": false,
-    "devel": false,
+    "devel": true,
     "dojo": false,
     "jquery": false,
     "mootools": false,
@@ -60,6 +60,6 @@
     "nomen": true,
     "onevar": true,
     "passfail": false,
-    "predef": ["require", "define", "$", "_", "GAME", "ENGINE", "LOG", "HEROES", "BOARD", "BUYSCREEN", "UTILS", "GFX", "TURNS", "PROJECTILES", "SYSTEM", "gfxMAP"]
+    "predef": ["require", "define", "$", "_", "GAME", "ENGINE", "LOG", "HEROES", "BOARD", "BUYSCREEN", "UTILS", "GFX", "TURNS", "PROJECTILES", "SYSTEM", "gfxMAP", "NETWORK", "firebase"]
 
 }

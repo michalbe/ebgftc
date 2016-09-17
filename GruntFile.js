@@ -173,7 +173,7 @@ module.exports = function (grunt) {
           js: {
             options: {
               banner: '(function(){\nvar GAME = {};\n',
-              footer: '})();'
+              footer: '$(document).ready(NETWORK.start);\n})();'
             },
             src: ['<%= config.src %>/modules/*/*.js','<%= config.src %>/modules/main.js'],
             dest: '<%= config.dist %>/js/game.js'
@@ -212,6 +212,16 @@ module.exports = function (grunt) {
             'processhtml',
             'copy',
             'connect:livereload',
+            'watch'
+        ]);
+    });
+
+    grunt.registerTask('dev', function (target) {
+        grunt.task.run([
+            'clean:server',
+            'concat',
+            'processhtml',
+            'copy',
             'watch'
         ]);
     });
