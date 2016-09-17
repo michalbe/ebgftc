@@ -2,18 +2,17 @@
 
 var UTILS = {
   shake: function() {
-    $('body').one('animationend', function(){
-      $('body').removeClass('shake');
-    });
-
-    $('body').addClass('shake');
+    // $('body').one('animationend', function(){
+    //   $('body').removeClass('shake');
+    // });
+    //
+    // $('body').addClass('shake');
   },
 
   rechargeAll: function() {
     var recharged = 0;
     var set = TURNS.getPlayer() < 0 ? GAME.units.reds : GAME.units.greens;
 
-    console.log('RECZARDŻ', TURNS.getPlayer());
     set.forEach(function(unit) {
       if (unit.rechargeStop()) {
         recharged++;
@@ -23,25 +22,31 @@ var UTILS = {
     LOG.ge(recharged + ' units recharged');
   },
 
-  moveRow: function(killedEntity) {
+  moveRow: function(killedEntity, cb) {
     var orientation = killedEntity.orientation;
     var emptyPosition = killedEntity.position;
     var set = orientation < 0 ? GAME.units.reds : GAME.units.greens;
+    set = this.getUnitsHorizontaly(emptyPosition.y, set);
     // I kind of feel this is not what I wanted to achieve...
     // those should be removed from the original sets (enemies/units);
     // set = _.without(set, killedEntity);
-
-    _.each(set, function(unit) {
+    SYSTEM.asyncForEach(set, function(unit, next) {
       if (
-        unit.position.y === emptyPosition.y &&
-        (
           (orientation < 0 && unit.position.x < emptyPosition.x) ||
           (orientation > 0 && unit.position.x > emptyPosition.x)
-        )
       ) {
+        var oldPosX = unit.position.x;
         unit.moveTo(
-          parseInt(unit.position.x, 10) - orientation, unit.position.y);
+          emptyPosition.x, unit.position.y,
+          next
+        );
+        emptyPosition.x = oldPosX;
+        // next();
+      } else {
+        next();
       }
+    }, function() {
+      cb();
     });
   },
 
@@ -56,9 +61,12 @@ var UTILS = {
     }).sort(function(a, b) { return orientation < 0 ? (a.position.x - b.position.x) : (b.position.x - a.position.x); });
   },
 
-  getUnitsHorizontaly: function(row) {
-    return _.filter(GAME.units.reds.concat(GAME.units.greens), function(unit) {
+  getUnitsHorizontaly: function(row, set) {
+    set = set || GAME.units.reds.concat(GAME.units.greens);
+    return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === parseInt(row, 10);
+    }).sort(function(a, b) {
+      return (b.position.x - a.position.x) * a.orientation;
     });
   },
 
@@ -101,7 +109,7 @@ var UTILS = {
     _.each(units, function(unit) {
       unit.moveTo(unit.position.x, parseInt(unit.position.y, 10) + direction);
     });
-    this.fillEmptySpots();
+    this.fillHalfBoard(TURNS.getPlayer());
   },
 
   getUnitByCell: function(x, y) {
@@ -110,29 +118,40 @@ var UTILS = {
     });
   },
 
-  fillHalfBoard: function(orientation) {
+  fillHalfBoard: function(orientation, cb) {
     var unit;
     var start = orientation > 0 ? BOARD.cols-1 : 0;
     var end = Math.floor(BOARD.cols/2);
     var inc = orientation * -1;
-
+    var allCells = [];
     for (var x = start; orientation > 0 ? x > end : x < end; x += inc) {
       for (var y=0; y<BOARD.rows; y++) {
-        unit = this.getUnitByCell(x, y);
-        if (!unit) {
-          this.moveRow({
-            orientation: orientation,
-            position: {x:x, y:y}
-          });
-        }
+        allCells.push({x:x, y:y});
       }
     }
+
+    SYSTEM.asyncForEach(allCells, function(cell, next) {
+      unit = this.getUnitByCell(cell.x, cell.y);
+      if (!unit) {
+        this.moveRow({
+          orientation: orientation,
+          position: {x: cell.x, y: cell.y}
+        }, next);
+      } else {
+        next();
+      }
+    }.bind(this), function(){
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
   },
 
-  fillEmptySpots: function() {
-    console.log('filluje!');
-    this.fillHalfBoard(-1);
-    this.fillHalfBoard(1);
+  fillEmptySpots: function(cb) {
+    if (typeof cb !== 'function') {
+      cb = function(){};
+    }
+    SYSTEM.asyncForEach([1, -1], this.fillHalfBoard.bind(this), cb);
   },
 
   chooseUnits: function(heroes, cb) {
@@ -140,7 +159,6 @@ var UTILS = {
     heroes.forEach(function(hero) {
       hero.element.addClass('highlight');
       hero.element.on('click', function heroAction() {
-          console.log('hue hue');
           heroes.forEach(function(hero) {
           hero.element.removeClass('highlight');
           // this is bullshit and should be fixed somehow...

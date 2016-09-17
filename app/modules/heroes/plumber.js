@@ -29,9 +29,9 @@ HEROES.Plumber = function() {
               self.moveTo(tempX, self.position.y);
             }
             if (index === affectedEnemies.length - 1) {
-              setTimeout(function() {
-                UTILS.fillEmptySpots();
-              }, 300);
+              // setTimeout(function() {
+                UTILS.fillHalfBoard(self.orientation * -1);
+              // }, 300);
               if (typeof cb === 'function') {
                 cb();
               }

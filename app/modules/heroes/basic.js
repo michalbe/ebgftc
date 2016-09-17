@@ -143,7 +143,7 @@ HEROES.BasicHero = function() {
     this.element.animate({
       top: cellOffset.top + ((cell.height() - this.height)/2),
       left: cellOffset.left + ((cell.width() - this.width)/2),
-    }, function() {
+    }, 200, function() {
       if (typeof cb === 'function') {
         cb();
       }
@@ -202,14 +202,12 @@ HEROES.BasicHero = function() {
     // this.updateHpBar();
 
     if (this.hp < 1) {
-      this.die();
+      this.die(cb);
       attacker.changeVp(1);
       if (this.vp > 0) {
         this.changeVp(-1);
       }
-    }
-
-    if (typeof cb === 'function') {
+    } else if (typeof cb === 'function') {
       cb();
     }
   };
@@ -225,20 +223,15 @@ HEROES.BasicHero = function() {
     }
   };
 
-  this.die = function() {
-    // this.alive = false;
+  this.die = function(cb) {
     LOG.ua(this.name + ' was sent to back...');
-    // this.element.fadeOut(function() {
-    //
-    //   UTILS.fillEmptySpots();
-    // });
     var self = this;
     this.hp = this.maxHp;
 
     this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
-      UTILS.fillEmptySpots();
+      UTILS.fillHalfBoard(self.orientation, cb);
       if (self.priested && self.vp < 1) {
         var vp = self.vp*-2;
         self.changeVp(vp);

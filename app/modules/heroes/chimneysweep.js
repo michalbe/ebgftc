@@ -27,9 +27,9 @@ HEROES.ChimneySweep = function() {
         affectedHeroes.forEach(function(hero, index) {
           hero.moveTo(positions[index].x, hero.position.y, (function(index) {
             if (index === affectedHeroes.length - 1) {
-              setTimeout(function() {
-                UTILS.fillEmptySpots();
-              }, 300);
+              // setTimeout(function() {
+                UTILS.fillHalfBoard(self.orientation);
+              // }, 300);
               if (typeof cb === 'function') {
                 cb();
               }
