@@ -2,11 +2,11 @@
 
 var UTILS = {
   shake: function() {
-    $('body').one('animationend', function(){
-      $('body').removeClass('shake');
-    });
-
-    $('body').addClass('shake');
+    // $('body').one('animationend', function(){
+    //   $('body').removeClass('shake');
+    // });
+    //
+    // $('body').addClass('shake');
   },
 
   rechargeAll: function() {
@@ -24,27 +24,25 @@ var UTILS = {
   },
 
   moveRow: function(killedEntity, cb) {
-    console.log('MOVE ROW');
     var orientation = killedEntity.orientation;
     var emptyPosition = killedEntity.position;
     var set = orientation < 0 ? GAME.units.reds : GAME.units.greens;
+    set = this.getUnitsHorizontaly(emptyPosition.y, set);
     // I kind of feel this is not what I wanted to achieve...
     // those should be removed from the original sets (enemies/units);
     // set = _.without(set, killedEntity);
-
     SYSTEM.asyncForEach(set, function(unit, next) {
       if (
-        unit.position.y === emptyPosition.y &&
-        (
           (orientation < 0 && unit.position.x < emptyPosition.x) ||
           (orientation > 0 && unit.position.x > emptyPosition.x)
-        )
       ) {
+        var oldPosX = unit.position.x;
         unit.moveTo(
           emptyPosition.x, unit.position.y,
           next
         );
-
+        emptyPosition.x = oldPosX;
+        // next();
       } else {
         next();
       }
@@ -64,9 +62,12 @@ var UTILS = {
     }).sort(function(a, b) { return orientation < 0 ? (a.position.x - b.position.x) : (b.position.x - a.position.x); });
   },
 
-  getUnitsHorizontaly: function(row) {
-    return _.filter(GAME.units.reds.concat(GAME.units.greens), function(unit) {
+  getUnitsHorizontaly: function(row, set) {
+    set = set || GAME.units.reds.concat(GAME.units.greens);
+    return _.filter(set, function(unit) {
       return unit.alive && unit.position.y === parseInt(row, 10);
+    }).sort(function(a, b) {
+      return (b.position.y - a.position.y) * a.orientation;
     });
   },
 
@@ -109,7 +110,7 @@ var UTILS = {
     _.each(units, function(unit) {
       unit.moveTo(unit.position.x, parseInt(unit.position.y, 10) + direction);
     });
-    this.fillEmptySpots();
+    this.fillHalfBoard(TURNS.getPlayer());
   },
 
   getUnitByCell: function(x, y) {
@@ -140,7 +141,11 @@ var UTILS = {
       } else {
         next();
       }
-    }.bind(this), cb);
+    }.bind(this), function(){
+      if (typeof cb === 'function') {
+        cb();
+      }
+    });
   },
 
   fillEmptySpots: function(cb) {

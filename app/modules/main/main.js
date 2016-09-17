@@ -9,7 +9,7 @@ var GAME = function() {
   GAME.units.greens = [];
   // hero players
 
-  var DefaultHero = HEROES.Handyman;
+  var DefaultHero = HEROES.ConstructionWorker;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 3;//0;//2;
@@ -121,9 +121,10 @@ var GAME = function() {
     console.log(coords);
     GAME.heroToAdd.moveTo(parseInt(coords[0]), parseInt(coords[1]));
     LOG.ge(GAME.heroToAdd.name + ' added!');
+    UTILS.fillHalfBoard(GAME.heroToAdd.orientation);
     GAME.heroToAdd = null;
     document.body.classList.remove('placing_hero');
-    UTILS.fillEmptySpots();
+
     if (TURNS.getPlayersMoney() > 0 && !GAME.nohajs) {
       BUYSCREEN.show();
     } else {

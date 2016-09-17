@@ -231,7 +231,7 @@ HEROES.BasicHero = function() {
     this.moveTo(this.orientation > 0 ? BOARD.cols : -1, this.position.y, function() {
       self.rechargeStart();
       self.currentRechargeCount = self.rechargeTime - 2;
-      UTILS.fillEmptySpots(cb);
+      UTILS.fillHalfBoard(self.orientation);
       if (self.priested && self.vp < 1) {
         var vp = self.vp*-2;
         self.changeVp(vp);

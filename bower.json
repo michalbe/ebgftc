@@ -1,20 +1,21 @@
 {
-    "name": "ebgftc",
-    "version": "0.0.0",
-    "main": "index.html",
-    "ignore": [
-      "**/.*",
-      "node_modules",
-      "bower_components",
-      "app/bower_components",
-      "app/bower_components",
-      "test",
-      "tests"
-    ],
-    "dependencies": {
-        "normalize-less": "*",
-        "requirejs": "~2.1.9",
-        "lesshat": "~2.0.8",
-        "jquery": "*"
-    }
+  "name": "ebgftc",
+  "version": "0.0.0",
+  "main": "index.html",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/bower_components",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-less": "*",
+    "requirejs": "~2.1.9",
+    "lesshat": "~2.0.8",
+    "jquery": "*",
+    "underscore": "^1.8.3"
+  }
 }
