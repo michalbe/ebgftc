@@ -9,7 +9,7 @@ var GAME = function() {
   GAME.units.greens = [];
   // hero players
 
-  var DefaultHero = HEROES.CableTv;
+  var DefaultHero = HEROES.RoadWorker;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
   var filledCols = 2;//0;//2;
