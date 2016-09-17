@@ -15,7 +15,7 @@ var NETWORK = (function() {
     			console.log('Player signed in', user.uid);
     			var playerID = user.uid;
 
-    			fbRef.child( 'Players/' + playerID + '/isOnline' ).once('value')
+    			fbRef.child('Players/' + playerID + '/isOnline' ).once('value')
             .then(function(isOnline) {
 
     				if (isOnline.val() === null || isOnline.val() === false) {
@@ -27,10 +27,10 @@ var NETWORK = (function() {
     			});
     		} else {
     			// User signed out
-    			console.log( 'Player signed out', GAME.playerID);
+    			console.log('Player signed out', GAME.playerID);
 
     			firebase.auth().signInAnonymously().catch(function(error) {
-    				console.log( error.code + ': ' + error.message );
+    				console.log(error.code + ': ' + error.message );
     			});
     		}
     	});
