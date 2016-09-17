@@ -2,29 +2,28 @@
 
 var HEROES = {};
 var gfxMAP = {
-  it: 2,
-  construction: 0,
+  it: 0,
+  construction: 16,
   plumber: 1,
-  electrician: 12,
-  medic: 3,
-  coach: 4,
-  smith: 11,
-  watchmaker: 7,
-  psyho: 14,
-  priest: 6,
-  tailor: 5,
-  executor: 11,
-  chimneysweep: 10,
-  dustin: 8,
-  headsman: 9,
-  carrepair: 13,
+  electrician: 9,
+  medic: 2,
+  coach: 13,
+  smith: 7,
+  watchmaker: 3,
+  psyho: 8,
+  priest: 17,
+  tailor: 12,
+  executor: 4,
+  chimneysweep: 19,
+  dustin: 5,
+  carrepair: 6,
   roadworker: 15,
-  nurse: 16,
-  cabletv: 17,
-  handyman: 19,
+  nurse: 18,
+  cabletv: 10,
+  handyman: 14,
 
   // PROJECTILES
-  bulb: 18
+  bulb: 11
 };
 
 HEROES.BasicHero = function() {
