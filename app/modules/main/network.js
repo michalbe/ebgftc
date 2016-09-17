@@ -30,8 +30,17 @@ var NETWORK = (function() {
             alert('Send URL to friend ' + window.location.href);
           } else {
             // We are joining existing game
-            lobbyRef.child('games/' + gameID).update({
-              red: playerID
+            lobbyRef.child('games/' + gameID).once('value', function(data) {
+              console.log('data', data);
+              if (data.green !== playerID) {
+                lobbyRef.child('games/' + gameID).update({
+                  red: playerID
+                });
+              } else {
+                // Window refreshed, implement this somehow...
+                alert('DO NOT REFRESH, it\'s 4am  and I dont feel like implementing this shit...');
+              }
+
             });
           }
     		} else {
