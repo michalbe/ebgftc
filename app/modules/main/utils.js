@@ -24,6 +24,7 @@ var UTILS = {
   },
 
   moveRow: function(killedEntity, cb) {
+    console.log('MOVE ROW');
     var orientation = killedEntity.orientation;
     var emptyPosition = killedEntity.position;
     var set = orientation < 0 ? GAME.units.reds : GAME.units.greens;
@@ -40,13 +41,16 @@ var UTILS = {
         )
       ) {
         unit.moveTo(
-          parseInt(unit.position.x, 10) - orientation, unit.position.y,
+          emptyPosition.x, unit.position.y,
           next
         );
+
       } else {
         next();
       }
-    }, cb);
+    }, function() {
+      cb();
+    });
   },
 
   getUnitsHorizontalyInRange: function(hero) {
@@ -127,7 +131,6 @@ var UTILS = {
     }
 
     SYSTEM.asyncForEach(allCells, function(cell, next) {
-      console.log(orientation, cell);
       unit = this.getUnitByCell(cell.x, cell.y);
       if (!unit) {
         this.moveRow({
@@ -144,7 +147,7 @@ var UTILS = {
     if (typeof cb !== 'function') {
       cb = function(){};
     }
-    SYSTEM.asyncForEach([-1], this.fillHalfBoard.bind(this), cb);
+    SYSTEM.asyncForEach([1, -1], this.fillHalfBoard.bind(this), cb);
   },
 
   chooseUnits: function(heroes, cb) {
@@ -152,7 +155,6 @@ var UTILS = {
     heroes.forEach(function(hero) {
       hero.element.addClass('highlight');
       hero.element.on('click', function heroAction() {
-          console.log('hue hue');
           heroes.forEach(function(hero) {
           hero.element.removeClass('highlight');
           // this is bullshit and should be fixed somehow...
