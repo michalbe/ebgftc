@@ -9,10 +9,10 @@ var GAME = function() {
   GAME.units.greens = [];
   // hero players
 
-  var DefaultHero = HEROES.Handyman;
+  var DefaultHero = HEROES.CableTv;
 
   var filledRows = Math.min(BOARD.rows, Math.ceil(BOARD.rows/2));
-  var filledCols = 0;//2;
+  var filledCols = 2;//0;//2;
   var startY = Math.floor((BOARD.rows-filledRows)/2);
   var hero;
   var y, x;
@@ -125,10 +125,15 @@ var GAME = function() {
     GAME.heroToAdd = null;
     document.body.classList.remove('placing_hero');
 
-    if (TURNS.getPlayersMoney() > 0 && !GAME.nohajs) {
-      BUYSCREEN.show();
+    if (typeof BUYSCREEN.cb === 'function') {
+      BUYSCREEN.cb();
+      BUYSCREEN.cb = null;
     } else {
-      TURNS.endState();
+      if (TURNS.getPlayersMoney() > 0 && !GAME.nohajs) {
+        BUYSCREEN.show();
+      } else {
+        TURNS.endState();
+      }
     }
   });
   TURNS.start();

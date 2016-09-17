@@ -113,7 +113,7 @@ HEROES.BasicHero = function() {
     // this.hpBar = $('<div></div>').addClass('hp').appendTo(this.element);
     this.token = $('<div class="token"></div>').appendTo(this.element);
     this.vpToken = $('<div class="vp"></div>').appendTo(this.element);
-    if (this.vp > 0) {
+    if (this.vp !== 0) {
       this.changeVp(0);
     }
     GAME.heroContainer.append(this.element);
