@@ -4,6 +4,8 @@ var GAME = function(options) {
   GAME.id = options.gameID;
   GAME.playerID = options.playerID;
   GAME.player = options.player;
+  var gameref = firebase.database().ref('game-' + GAME.id);
+
   $('body').append(BOARD.template);
   GAME.heroContainer = $('.board_container');
 
@@ -117,7 +119,7 @@ var GAME = function(options) {
       (GAME.heroToAdd.orientation > 0 && !evt.target.classList.contains('player')) ||
       (GAME.heroToAdd.orientation < 0 && !evt.target.classList.contains('enemy'))
     ) {
-      console.log('no placing hero')
+      console.log('no placing hero');
       return;
     }
     var coords = evt.target.dataset.cell.split('-');
@@ -125,6 +127,16 @@ var GAME = function(options) {
     GAME.heroToAdd.moveTo(parseInt(coords[0]), parseInt(coords[1]));
     LOG.ge(GAME.heroToAdd.name + ' added!');
     UTILS.fillHalfBoard(GAME.heroToAdd.orientation);
+
+    gameref.child('action-' + GAME.player).set({
+      type: 'addHero',
+      hero: GAME.heroToAdd.class,
+      coords: {
+        x: parseInt(coords[0]),
+        y: parseInt(coords[1])
+      }
+    });
+
     GAME.heroToAdd = null;
     document.body.classList.remove('placing_hero');
 
@@ -139,7 +151,13 @@ var GAME = function(options) {
       }
     }
   });
-  TURNS.start();
+
+  if (GAME.player === GAME.PLAYERS.GREEN) {
+    TURNS.start();
+  } else {
+    LOG.ge('Wait for your turn');
+  }
+
 };
 
 GAME.PLAYERS = {

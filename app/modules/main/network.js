@@ -23,10 +23,19 @@ var NETWORK = (function() {
             gameID = self.guid();
             window.location.hash = gameID;
             console.log('elo', gameID);
+            self.otherSet = 'reds';
+            self.otherOrientation = -1;
             lobbyRef.child('games/' + gameID).set({
               green: playerID,
               red: 'null'
             });
+
+            // Subscribe for other players actions
+            firebase.database()
+              .ref('game-' + gameID)
+              .child('action-' + GAME.PLAYERS.RED)
+              .on('value', self.performAction);
+
             alert('Send URL to friend ' + window.location.href);
             GAME({
               playerID: playerID,
@@ -35,6 +44,7 @@ var NETWORK = (function() {
             });
 
           } else {
+
             // We are joining existing game
             lobbyRef.child('games/' + gameID).once('value', function(data) {
               console.log('data', data);
@@ -47,6 +57,16 @@ var NETWORK = (function() {
                   gameID: gameID,
                   player: GAME.PLAYERS.RED
                 });
+
+                self.otherSet = 'greens';
+                self.otherOrientation = 1;
+
+                // Subscribe for other players actions
+                firebase.database()
+                  .ref('game-' + gameID)
+                  .child('action-' + GAME.PLAYERS.GREEN)
+                  .on('value', self.performAction);
+
               } else {
                 // Window refreshed, implement this somehow...
                 alert('DO NOT REFRESH, it\'s 4am  and I dont feel like implementing this shit...');
@@ -83,6 +103,27 @@ var NETWORK = (function() {
           .substring(1);
       }
       return s4() + s4() + s4() + s4();
+    },
+
+    performAction: function(action) {
+      action = action.val();
+      console.log('action', action);
+      if (!action) {
+        return;
+      }
+      switch (action.type) {
+        case 'addHero':
+          var hero = new HEROES[action.hero]();
+          hero.init();
+          hero.orientation = NETWORK.otherOrientation;
+          GAME.units[NETWORK.otherSet].push(hero);
+          hero.moveTo(action.coords.x, action.coords.y);
+          UTILS.fillHalfBoard(hero.orientation);
+          break;
+        default:
+          console.log('unknown action...', action);
+          break;
+      }
     }
   };
 })();

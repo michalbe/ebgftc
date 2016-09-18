@@ -10,25 +10,17 @@ var TURNS = (function() {
   };
 
   // var isFirstTurn = true;
-  var activePlayer = 1;
+  var activePlayer = GAME.PLAYERS.GREEN;
+  var isMyTurn = function() {
+    return activePlayer === GAME.player;
+  };
+
   var activeState = TURN_STATES.BUY;
 
   var defaultActions = {
     moves: Infinity,
     actions: 1
   };
-
-  var bonusActions = {
-    '-1': {
-      moves: 0,
-      actions: 0
-    },
-    1: {
-      moves: 0,
-      actions: 0
-    }
-  };
-
 
   // OMG this is awful...
   var players = {
@@ -47,12 +39,17 @@ var TURNS = (function() {
 
     // output += 'and ' + players[activePlayer].money + ' money to spend';
 
-    document.body.classList = (activePlayer > 0 ? 'green' : 'red') + '-turn';
+    highlightBoard();
     LOG.ge(output);
+  };
+
+  var highlightBoard = function() {
+    document.body.classList = (activePlayer > 0 ? 'green' : 'red') + '-turn';
   };
 
   return {
     start: function() {
+      console.log('TURNS START');
       BUYSCREEN.drawHeroes();
       playersTurn();
       BUYSCREEN.show();
@@ -69,6 +66,9 @@ var TURNS = (function() {
     isRechargeState: function() {
       return activeState === TURN_STATES.RECHARGE;
     },
+
+    highlightBoard: highlightBoard,
+
     endState: function() {
 
       switch(activeState) {
@@ -99,13 +99,18 @@ var TURNS = (function() {
             activePlayer = activePlayer * -1;
             playersTurn();
             LOG.ge((activePlayer > 0 ? 'Green' : 'Red') + ' player\'s turn.');
-            BUYSCREEN.show();
+            if (isMyTurn()) {
+              BUYSCREEN.show();
+            }
           }, 300);
           break;
       }
 
       window.STATE = activeState;
     },
+
+    isMyTurn: isMyTurn,
+
     getPlayer: function() {
       return activePlayer;
     },
@@ -145,6 +150,7 @@ var TURNS = (function() {
     addHero: function(heroClass) {
       var set = activePlayer > 0 ? 'greens' : 'reds';
       var hero = new HEROES[heroClass]();
+      hero.class = heroClass;
       hero.init();
       hero.orientation = activePlayer;
       LOG.ge('Choose where to place your ' + hero.name);

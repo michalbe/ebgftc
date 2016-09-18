@@ -1,7 +1,7 @@
 var LOG = (function() {
   var log = $('<div></div>')
   .addClass('log');
-  $('body').append(log);
+  //$('body').append(log);
 
   var addText = function(text) {
     log.html(log.html() + '<br>'+ text);
