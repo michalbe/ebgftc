@@ -1,6 +1,4 @@
 /*jshint browser: true*/
-
-
 var BUYSCREEN = (function() {
   var element = document.querySelector('.buy_screen');
   var content = element.querySelector('.content');
@@ -15,6 +13,7 @@ var BUYSCREEN = (function() {
   });
 
   var heroes = Object.keys(HEROES);
+  // Remove the base class from the stack
   heroes.shift();
 
 
@@ -23,18 +22,34 @@ var BUYSCREEN = (function() {
   };
 
   var drawHeroes = function() {
+    var gameref = firebase.database().ref('game-' + GAME.id);
     content.innerHTML = '';
     content.appendChild(money);
+
     var heroes = [];
-    var hero;
-    for (var i = 0; i < 3; i++) {
-      hero = drawAHero();
-      while (heroes.indexOf(hero) > -1) {
+
+    if (GAME.player === GAME.PLAYERS.GREEN) {
+      // only green player draw heroes
+      var hero;
+      for (var i = 0; i < 3; i++) {
         hero = drawAHero();
+        while (heroes.indexOf(hero) > -1) {
+          hero = drawAHero();
+        }
+        createHeroCard(hero);
+        heroes.push(hero);
       }
-      createHeroCard(hero);
-      heroes.push(hero);
+      gameref.child('heroes').set(heroes);
+    } else {
+      // get drawed heroes data from the server
+      // TODO: This could be just an event, outside this method, with listener
+      // that renders heroes each time they change on te server
+      gameref.child('heroes').once('value', function(data){
+        data.val().forEach(createHeroCard);
+      });
     }
+
+
     // content.appendChild(cancel);
     console.log(heroes);
   };

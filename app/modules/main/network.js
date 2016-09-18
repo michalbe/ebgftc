@@ -28,6 +28,12 @@ var NETWORK = (function() {
               red: 'null'
             });
             alert('Send URL to friend ' + window.location.href);
+            GAME({
+              playerID: playerID,
+              gameID: gameID,
+              player: GAME.PLAYERS.GREEN
+            });
+
           } else {
             // We are joining existing game
             lobbyRef.child('games/' + gameID).once('value', function(data) {
@@ -35,6 +41,11 @@ var NETWORK = (function() {
               if (data.green !== playerID) {
                 lobbyRef.child('games/' + gameID).update({
                   red: playerID
+                });
+                GAME({
+                  playerID: playerID,
+                  gameID: gameID,
+                  player: GAME.PLAYERS.RED
                 });
               } else {
                 // Window refreshed, implement this somehow...

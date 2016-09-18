@@ -1,6 +1,9 @@
 /*jshint browser: true*/
 
-var GAME = function() {
+var GAME = function(options) {
+  GAME.id = options.gameID;
+  GAME.playerID = options.playerID;
+  GAME.player = options.player;
   $('body').append(BOARD.template);
   GAME.heroContainer = $('.board_container');
 
@@ -137,4 +140,9 @@ var GAME = function() {
     }
   });
   TURNS.start();
+};
+
+GAME.PLAYERS = {
+  RED: -1,
+  GREEN: 1
 };
