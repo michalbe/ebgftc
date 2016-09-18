@@ -93,7 +93,7 @@ var TURNS = (function() {
           activeState = TURN_STATES.ACTION;
           break;
         case TURN_STATES.ACTION:
-          setTimeout(function(){
+          setTimeout(function() {
             LOG.ge('Action phase ended, end turn.');
             activeState = TURN_STATES.BUY;
             activePlayer = activePlayer * -1;
@@ -106,16 +106,20 @@ var TURNS = (function() {
 
       window.STATE = activeState;
     },
+
     getPlayer: function() {
       return activePlayer;
     },
+
     // THIS CAN BE OPTIMIZED WITH THE ABOVE TO RETURN FULL PLAYER OBJECT
     getPlayersMoney: function() {
       return players[activePlayer].money;
     },
+
     pay: function(amount) {
       players[activePlayer].money = players[activePlayer].money - amount;
     },
+
     earn: function(amount) {
       players[activePlayer].money = players[activePlayer].money + amount;
     },
